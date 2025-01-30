@@ -7,6 +7,10 @@ node_modules
 logs/
 *.log
 
+# Next.js
+/.next/
+/out/
+
 # Dependency directories
 jspm_packages/
 
