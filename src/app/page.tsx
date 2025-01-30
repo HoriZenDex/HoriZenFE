@@ -8,8 +8,8 @@ export default function Home() {
       <AnimatedRingBackground />
       <div className="relative z-10">
         <Navbar />
-        <section className="container pt-32 pb-20">
-          <div className="max-w-4xl backdrop-blur-lg bg-black/50 p-12 rounded-3xl shadow-2xl">
+        <div className="container mx-auto px-4 py-20 min-h-screen flex items-center justify-center">
+          <div className="w-full max-w-6xl backdrop-blur-md bg-black/30 p-16 rounded-3xl shadow-2xl">
             <h1 className="text-7xl font-extrabold mb-8 animate-fade-in">
               <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent bg-300% animate-gradient">
                 Video NFT
@@ -36,7 +36,7 @@ export default function Home() {
               </Button>
             </div>
           </div>
-        </section>
+        </div>
       </div>
     </main>
   )
