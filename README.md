@@ -16,6 +16,6 @@
 
 3. **Open the application**:
 
-    Visit [http://localhost:3000](http://localhost:3000) in your browser.
+    Visit the [http://localhost](http://localhost) in your browser.
 
 That's it! You should now see the Videx app running.
