@@ -9,7 +9,7 @@ export default function Home() {
       <div className="relative z-10">
         <Navbar />
         <section className="container pt-32 pb-20">
-          <div className="max-w-3xl backdrop-blur-lg bg-black/50 p-12 rounded-2xl shadow-2xl">
+          <div className="max-w-4xl backdrop-blur-lg bg-black/50 p-12 rounded-3xl shadow-2xl">
             <h1 className="text-7xl font-extrabold mb-8 animate-fade-in">
               <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent bg-300% animate-gradient">
                 Video NFT
@@ -17,7 +17,7 @@ export default function Home() {
               <br />
               <span className="text-white drop-shadow-glow">Decentralized Exchange</span>
             </h1>
-            <p className="text-xl text-gray-300 mb-12 max-w-2xl animate-fade-in-up">
+            <p className="text-xl text-gray-300 mb-12 max-w-3xl animate-fade-in-up">
               Trade, create, and collect unique video NFTs on a secure and scalable platform.
             </p>
             <div className="flex gap-6">
