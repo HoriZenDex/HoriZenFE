@@ -1,3 +1,32 @@
 node_modules
 
-DS_Store
+node_modules
+.next
+
+# Logs
+logs/
+*.log
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# dotenv environment variables file
+.env
+
+# Mac system files
+.DS_Store
+
+# VS Code settings
+.vscode/
