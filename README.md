@@ -8,14 +8,20 @@
     npm install
     ```
 
-2. **Run the development server**:
+2. **Install `three.js`**:
+
+    ```bash
+    npm install three
+    ```
+
+3. **Run the development server**:
 
     ```bash
     npm run dev
     ```
 
-3. **Open the application**:
+4. **Open the application**:
 
-    Visit the [http://localhost](http://localhost) in your browser.
+    Visit [http://localhost](http://localhost) in your browser.
 
 That's it! You should now see the Videx app running.
