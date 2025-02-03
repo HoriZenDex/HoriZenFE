@@ -15,15 +15,15 @@ module.exports = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "#000000",
-        foreground: "#FFFFFF",
+        background: "#FFFFFF",
+        foreground: "#000000",
         primary: {
           DEFAULT: "#03ceb3",
-          foreground: "#000000",
+          foreground: "#FFFFFF",
         },
         secondary: {
           DEFAULT: "#3afde2",
-          foreground: "#000000",
+          foreground: "#FFFFFF",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
