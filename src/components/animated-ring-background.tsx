@@ -37,7 +37,7 @@ function AnimatedRing() {
           float normalizedAngle = (angle + 3.14159) / (2.0 * 3.14159);
           float clipMask = step(normalizedAngle, progress);
           
-          gl_FragColor = vec4(color, ring * 0.8 * clipMask);
+          gl_FragColor = vec4(color, ring * 0.4 * clipMask);
         }
       `,
       transparent: true,
@@ -70,25 +70,27 @@ function StarfieldParticles() {
   const { size, viewport } = useThree()
   const aspect = size.width / viewport.width
 
-  const [positions, colors, sizes] = useMemo(() => {
+  const [positions, sizes] = useMemo(() => {
     const positions = []
-    const colors = []
     const sizes = []
-    const numParticles = 1000 // Increased number of particles
-    const color = new THREE.Color()
+    const numParticles = 5000 // Increased number of particles
 
     for (let i = 0; i < numParticles; i++) {
-      positions.push((Math.random() - 0.5) * 10 * aspect)
-      positions.push((Math.random() - 0.5) * 10)
-      positions.push((Math.random() - 0.5) * 10)
+      // Distribute particles in a spherical volume
+      const theta = 2 * Math.PI * Math.random()
+      const phi = Math.acos(2 * Math.random() - 1)
+      const r = Math.cbrt(Math.random()) * 10 // Cube root for more uniform distribution
 
-      color.setHSL(Math.random(), 0.7, 0.7)
-      colors.push(color.r, color.g, color.b)
+      positions.push(
+        r * Math.sin(phi) * Math.cos(theta) * aspect,
+        r * Math.sin(phi) * Math.sin(theta),
+        r * Math.cos(phi),
+      )
 
-      sizes.push(Math.random() * 0.1 + 0.05)
+      sizes.push(Math.random() * 0.03 + 0.01) // Varied sizes for depth effect
     }
 
-    return [new Float32Array(positions), new Float32Array(colors), new Float32Array(sizes)]
+    return [new Float32Array(positions), new Float32Array(sizes)]
   }, [aspect])
 
   useFrame((state) => {
@@ -106,7 +108,7 @@ function StarfieldParticles() {
       for (let i = 0; i < positions.length; i += 3) {
         const y = positions[i + 1]
         positions[i + 1] = y + Math.sin(time + positions[i] * 0.5) * 0.01
-        sizes[i / 3] = Math.sin(time + positions[i]) * 0.05 + 0.1
+        sizes[i / 3] = (Math.sin(time + positions[i]) * 0.01 + 0.03) * (1 - Math.abs(positions[i + 2]) / 10) // Size variation based on z-position
       }
 
       positionAttribute.needsUpdate = true
@@ -118,10 +120,9 @@ function StarfieldParticles() {
     <points ref={particlesRef}>
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" count={positions.length / 3} array={positions} itemSize={3} />
-        <bufferAttribute attach="attributes-color" count={colors.length / 3} array={colors} itemSize={3} />
         <bufferAttribute attach="attributes-size" count={sizes.length} array={sizes} itemSize={1} />
       </bufferGeometry>
-      <pointsMaterial size={0.1} vertexColors blending={THREE.AdditiveBlending} transparent depthWrite={false} />
+      <pointsMaterial size={0.05} color="#000000" sizeAttenuation transparent opacity={0.7} depthWrite={false} />
     </points>
   )
 }
@@ -162,12 +163,12 @@ function Scene() {
   const { scene } = useThree()
 
   useEffect(() => {
-    scene.fog = new THREE.Fog("#000000", 5, 15)
+    scene.fog = new THREE.Fog("#FFFFFF", 5, 15)
   }, [scene])
 
   return (
     <>
-      <color attach="background" args={["#000000"]} />
+      <color attach="background" args={["#FFFFFF"]} />
       <ambientLight intensity={0.1} />
       <AnimatedRing />
       <StarfieldParticles />
