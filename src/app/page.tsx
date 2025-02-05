@@ -1,7 +1,7 @@
-import { Navbar } from "@/components/navbar"
-import { AnimatedRingBackground } from "@/components/animated-ring-background"
-import { VideoNFTGallery } from "@/components/video-nft-gallery"
-import { ScrollArrow } from "@/components/scroll-arrow"
+import { Navbar } from "@/src/components/navbar"
+import { AnimatedRingBackground } from "@/src/components/animated-ring-background"
+import { VideoNFTGallery } from "@/src/components/video-nft-gallery"
+import { ScrollArrow } from "@/src/components/scroll-arrow"
 
 export default function Home() {
   return (

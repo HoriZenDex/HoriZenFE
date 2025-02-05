@@ -1,8 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { scrollToElement } from "@/utils"
+import { Button } from "@/src/components/ui/button"
+import { scrollToElement } from "@/src/utils"
 
 export function Navbar() {
   return (

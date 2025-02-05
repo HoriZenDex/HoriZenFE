@@ -1,7 +1,7 @@
 "use client"
 
 import { ChevronDown } from "lucide-react"
-import { scrollToElement } from "@/utils"
+import { scrollToElement } from "@/src/utils"
 
 interface ScrollArrowProps {
   targetId: string
