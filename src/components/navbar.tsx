@@ -22,16 +22,16 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 w-full border-b border-gray-200 bg-white/80 backdrop-blur-lg z-50 transition-transform duration-300 ${visible ? "translate-y-0" : "-translate-y-full"}`}
+      className={`fixed top-0 w-full border-b border-gray-200 bg-white/80 backdrop-blur-lg z-50 transition-transform duration-300 ${visible ? "translate-y-0" : "-translate-y-full"} py-4`}
     >
-      <div className="container flex h-20 items-center justify-between">
-        <div className="flex items-center gap-8">
+      <div className="container flex h-20 items-center justify-between px-6">
+        <div className="flex items-center gap-12">
           <Link href="/" className="flex items-center gap-2">
             <span className="text-3xl font-extrabold bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
               Videx
             </span>
           </Link>
-          <nav className="hidden md:flex gap-8">
+          <nav className="flex gap-12">
             <button
               onClick={() => scrollToElement("video-nft-gallery")}
               className="text-base font-semibold text-gray-700 hover:text-primary transition-colors duration-300 hover:drop-shadow-glow relative group"
@@ -51,16 +51,10 @@ export function Navbar() {
             ))}
           </nav>
         </div>
-        <div className="flex items-center gap-4">
-          <Link
-            href="/docs"
-            className="text-base font-semibold text-gray-700 hover:text-primary transition-colors duration-300 hover:drop-shadow-glow"
-          >
-            Docs
-          </Link>
+        <div className="flex items-center gap-8">
           <Button
             variant="outline"
-            className="border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-glow text-base font-semibold px-6 py-2 rounded-full"
+            className="border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-glow text-base font-semibold px-8 py-3 rounded-full"
           >
             Connect Wallet
           </Button>
@@ -69,4 +63,3 @@ export function Navbar() {
     </header>
   )
 }
-
