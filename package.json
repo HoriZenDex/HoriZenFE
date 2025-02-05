@@ -1,5 +1,5 @@
 {
-  "name": "my-v0-project",
+  "name": "VidexApp",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -41,7 +41,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
-    "date-fns": "4.1.0",
+    "date-fns": "^2.28.0",
     "embla-carousel-react": "8.5.1",
     "input-otp": "1.4.1",
     "lucide-react": "^0.454.0",
@@ -59,11 +59,11 @@
     "vaul": "^0.9.6",
     "zod": "^3.24.1",
     "expo": "latest",
-    "expo-asset": "latest",
-    "expo-gl": "latest",
-    "expo-file-system": "latest",
-    "react-native": "latest",
     "three": "latest",
+    "expo-gl": "latest",
+    "expo-asset": "latest",
+    "react-native": "latest",
+    "expo-file-system": "latest",
     "@react-three/fiber": "latest",
     "gsap": "latest"
   },

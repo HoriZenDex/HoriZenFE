@@ -1,36 +1,12 @@
+"use client"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import type React from "react"
-import { useState, useEffect } from "react"
+import { scrollToElement } from "@/utils"
 
 export function Navbar() {
-  const scrollToGallery = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault()
-    const galleryElement = document.getElementById("video-nft-gallery")
-    if (galleryElement) {
-      galleryElement.scrollIntoView({ behavior: "smooth" })
-    }
-  }
-
-  const [prevScrollPos, setPrevScrollPos] = useState(0)
-  const [visible, setVisible] = useState(true)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.pageYOffset
-      setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10)
-      setPrevScrollPos(currentScrollPos)
-    }
-
-    window.addEventListener("scroll", handleScroll)
-
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [prevScrollPos])
-
   return (
-    <header
-      className={`fixed top-0 w-full border-b border-gray-200 bg-white/80 backdrop-blur-lg z-50 transition-transform duration-300 ${visible ? "translate-y-0" : "-translate-y-full"}`}
-    >
+    <header className="fixed top-0 w-full border-b border-gray-200 bg-white/80 backdrop-blur-lg z-50">
       <div className="container flex h-20 items-center justify-between">
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2">
@@ -39,14 +15,13 @@ export function Navbar() {
             </span>
           </Link>
           <nav className="hidden md:flex gap-8">
-            <a
-              href="#video-nft-gallery"
-              onClick={scrollToGallery}
+            <button
+              onClick={() => scrollToElement("video-nft-gallery")}
               className="text-base font-semibold text-gray-700 hover:text-primary transition-colors duration-300 hover:drop-shadow-glow relative group"
             >
               Explore
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-            </a>
+            </button>
             {["Create", "Trade"].map((item) => (
               <Link
                 key={item}

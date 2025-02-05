@@ -1,4 +1,7 @@
+"use client"
+
 import Image from "next/image"
+import { memo } from "react"
 
 const galleryItems = [
   { id: 1, title: "Cosmic Voyage", creator: "Stella Nova", image: "/placeholder.svg?height=300&width=200" },
@@ -11,6 +14,26 @@ const galleryItems = [
   { id: 8, title: "Future Fusion", creator: "Tech Trendsetter", image: "/placeholder.svg?height=350&width=200" },
 ]
 
+const GalleryItem = memo(function GalleryItem({ item }: { item: (typeof galleryItems)[0] }) {
+  return (
+    <div className="break-inside-avoid mb-4">
+      <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
+        <Image
+          src={item.image || "/placeholder.svg"}
+          alt={item.title}
+          width={200}
+          height={Math.floor(Math.random() * (400 - 200 + 1)) + 200}
+          className="w-full h-auto object-cover"
+        />
+        <div className="p-4">
+          <h3 className="font-semibold text-lg mb-1">{item.title}</h3>
+          <p className="text-sm text-gray-600">by {item.creator}</p>
+        </div>
+      </div>
+    </div>
+  )
+})
+
 export function VideoNFTGallery() {
   return (
     <div className="container mx-auto px-4 py-16">
@@ -19,21 +42,7 @@ export function VideoNFTGallery() {
       </h2>
       <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4">
         {galleryItems.map((item) => (
-          <div key={item.id} className="break-inside-avoid mb-4">
-            <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
-              <Image
-                src={item.image || "/placeholder.svg"}
-                alt={item.title}
-                width={200}
-                height={Math.floor(Math.random() * (400 - 200 + 1)) + 200}
-                className="w-full h-auto object-cover"
-              />
-              <div className="p-4">
-                <h3 className="font-semibold text-lg mb-1">{item.title}</h3>
-                <p className="text-sm text-gray-600">by {item.creator}</p>
-              </div>
-            </div>
-          </div>
+          <GalleryItem key={item.id} item={item} />
         ))}
       </div>
     </div>
