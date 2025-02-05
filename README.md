@@ -25,26 +25,21 @@ Before you begin, ensure you have the following installed:
 
 Follow these steps to get the Videx app running on your local machine:
 
-1. **Set up the legacy project**:
 
-    ```bash
-    cd path/to/legacy
-    ```
-
-2. **Clone the repository**:
+1. **Clone the repository**:
 
     ```bash
     git clone https://github.com/your-username/videx-frontend.git
     cd videx-frontend
     ```
 
-3. **Install dependencies**:
+2. **Install dependencies**:
 
     ```bash
     npm install
     ```
 
-4. **Run the development server**:
+3. **Run the development server**:
 
     ```bash
     npm run dev
