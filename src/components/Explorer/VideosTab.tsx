@@ -1,6 +1,6 @@
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "@/src/components/ui/card"
 import { Heart } from "lucide-react"
-import { videoNFTs } from "@/lib/data"
+import { videoNFTs } from "@/src/lib/data"
 
 export default function VideosTab() {
   return (

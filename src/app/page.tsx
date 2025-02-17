@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import Explorer from "@/components/Explorer/Explorer"
-import Navbar from "@/components/Navbar/Navbar"
-import ExplorerHeader from "@/components/Explorer/ExplorerHeader"
+import Explorer from "@/src/components/Explorer/Explorer"
+import Navbar from "@/src/components/Navbar/Navbar"
+import ExplorerHeader from "@/src/components/Explorer/ExplorerHeader"
 
 export default function Home() {
   const [walletAddress, setWalletAddress] = useState<string | null>(null)

@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import type { NFT } from "@/lib/types"
+import type { NFT } from "@/src/lib/types"
 import { ViewIcon as View360 } from "lucide-react"
 
 interface ExplorerGalleryProps {

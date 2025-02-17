@@ -1,7 +1,7 @@
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "@/src/components/ui/card"
 import { Heart } from "lucide-react"
 import Image from "next/image"
-import type { NFT } from "@/lib/types"
+import type { NFT } from "@/src/lib/types"
 
 const sampleInventoryNFTs: NFT[] = [
   {

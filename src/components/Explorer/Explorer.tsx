@@ -3,8 +3,8 @@
 import { useState } from "react"
 import ExplorerGallery from "./ExplorerGallery"
 import NFTDetails from "./NFTDetails"
-import type { NFT } from "@/lib/types"
-import { nftExamples } from "@/lib/data"
+import type { NFT } from "@/src/lib/types"
+import { nftExamples } from "@/src/lib/data"
 
 interface ExplorerProps {
   walletAddress: string | null

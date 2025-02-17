@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import type { NFT } from "@/lib/types"
-import { nftExamples } from "@/lib/data"
+import type { NFT } from "@/src/lib/types"
+import { nftExamples } from "@/src/lib/data"
 
 interface InventoryGalleryProps {
   onSelectNFT: (nft: NFT) => void

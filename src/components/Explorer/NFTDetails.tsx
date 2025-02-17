@@ -2,8 +2,8 @@
 
 import type React from "react"
 import { useState } from "react"
-import type { NFT } from "@/lib/types"
-import { Button } from "@/components/ui/button"
+import type { NFT } from "@/src/lib/types"
+import { Button } from "@/src/components/ui/button"
 import {
   Heart,
   MessageCircle,
@@ -15,7 +15,7 @@ import {
   ViewIcon as View360,
 } from "lucide-react"
 import Image from "next/image"
-import { bonusFeatures, keyBenefit } from "@/lib/data"
+import { bonusFeatures, keyBenefit } from "@/src/lib/data"
 
 interface NFTDetailsProps {
   nft: NFT
