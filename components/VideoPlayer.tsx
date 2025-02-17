@@ -1,7 +1,7 @@
 "use client"
 
-import { Button } from "@/src/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/src/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { ChevronDown, ChevronUp, Heart, MessageCircle, Share2, Trophy, Key, ViewIcon as View360 } from "lucide-react"
 import { useState, useMemo } from "react"
 

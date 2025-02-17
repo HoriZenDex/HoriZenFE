@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { Button } from "@/src/components/ui/button"
-import { Input } from "@/src/components/ui/input"
-import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,10 +11,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/src/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu"
 import { LogIn, UserPlus, User, ChevronDown } from "lucide-react"
 import Image from "next/image"
-import UserProfileDialog from "@/src/components/UserProfile/UserProfileDialog"
+import UserProfileDialog from "@/components/UserProfile/UserProfileDialog"
 
 interface ExplorerHeaderProps {
   walletAddress: string | null

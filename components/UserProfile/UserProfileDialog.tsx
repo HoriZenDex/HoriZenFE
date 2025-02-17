@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { Dialog, DialogContent } from "@/src/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/src/components/ui/tabs"
-import { Card, CardContent } from "@/src/components/ui/card"
+import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Card, CardContent } from "@/components/ui/card"
 import { Heart, ChevronDown } from "lucide-react"
 import Image from "next/image"
 import { nftExamples } from "@/lib/data"

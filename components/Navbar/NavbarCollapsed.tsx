@@ -1,4 +1,4 @@
-import { Button } from "@/src/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { List } from "lucide-react"
 
 interface NavbarCollapsedProps {

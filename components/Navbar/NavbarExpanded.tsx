@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Button } from "@/src/components/ui/button"
+import { Button } from "@/components/ui/button"
 import { ChevronDown, Upload } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"

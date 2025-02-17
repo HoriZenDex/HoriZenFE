@@ -1,11 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent } from "@/src/components/ui/card"
-import { Input } from "@/src/components/ui/input"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/src/components/ui/tabs"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Wallet, Heart } from "lucide-react"
-import { Button } from "@/src/components/ui/button"
+import { Button } from "@/components/ui/button"
 
 const videoNFTs = [
   {

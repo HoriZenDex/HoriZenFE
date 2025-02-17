@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/src/components/ui/avatar"
-import { Button } from "@/src/components/ui/button"
-import { Input } from "@/src/components/ui/input"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { ChevronDown, List, Upload } from "lucide-react"
 
 export default function Navbar() {
