@@ -1,34 +1,30 @@
-import { Navbar } from "@/src/components/navbar"
-import { AnimatedRingBackground } from "@/src/components/animated-ring-background"
-import { VideoNFTGallery } from "@/src/components/video-nft-gallery"
-import { ScrollArrow } from "@/src/components/scroll-arrow"
+"use client"
+
+import { useState } from "react"
+import Explorer from "@/components/Explorer/Explorer"
+import Navbar from "@/components/Navbar/Navbar"
+import ExplorerHeader from "@/components/Explorer/ExplorerHeader"
 
 export default function Home() {
+  const [walletAddress, setWalletAddress] = useState<string | null>(null)
+
+  const connectWallet = () => {
+    const mockAddress = "0x" + Math.random().toString(16).substr(2, 40)
+    setWalletAddress(mockAddress)
+  }
+
+  const disconnectWallet = () => {
+    setWalletAddress(null)
+  }
+
   return (
-    <main className="min-h-screen overflow-hidden relative">
-      <AnimatedRingBackground />
-      <div className="relative z-10">
-        <Navbar />
-        <div className="container mx-auto px-4 py-20 min-h-screen flex items-center justify-center relative">
-          <div className="w-full max-w-6xl backdrop-blur-md bg-white/70 p-16 rounded-3xl shadow-2xl">
-            <h1 className="text-7xl font-extrabold mb-8 animate-fade-in">
-              <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent bg-300% animate-gradient">
-                Video NFT
-              </span>
-              <br />
-              <span className="text-black drop-shadow-glow">Decentralized Exchange</span>
-            </h1>
-            <p className="text-xl text-gray-700 mb-12 max-w-3xl animate-fade-in-up">
-              Watch, Own, Redefine unique video NFTs on a secure and scalable platform.
-            </p>
-          </div>
-          <ScrollArrow targetId="video-nft-gallery" />
-        </div>
-        <div id="video-nft-gallery">
-          <VideoNFTGallery />
-        </div>
-      </div>
-    </main>
+    <div className="flex flex-col h-screen bg-black text-white">
+      <ExplorerHeader walletAddress={walletAddress} connectWallet={connectWallet} disconnectWallet={disconnectWallet} />
+      <main className="flex-1 overflow-hidden">
+        <Explorer walletAddress={walletAddress} />
+      </main>
+      <Navbar />
+    </div>
   )
 }
 
