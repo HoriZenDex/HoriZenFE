@@ -11,10 +11,6 @@
 
 2. **Install dependencies** 📦:
 
-     ```bash
-    npm install --legacy-peer-deps
-     ```
-
     ```bash
     npm install
     ```
