@@ -5,8 +5,7 @@
 1. **Clone the repository** 🌀:
 
     ```bash
-    git clone https://github.com/your-username/horizen-frontend.git
-    cd horizen-frontend
+    https://github.com/HoriZenDex/HoriZenFE.git
     ```
 
 2. **Install dependencies** 📦:
