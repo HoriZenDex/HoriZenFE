@@ -7,6 +7,7 @@ import ExplorerHeader from "@/components/Explorer/ExplorerHeader"
 import TrendingCreators from "@/components/TrendingCreators/TrendingCreators"
 import TrendingCategories from "@/components/TrendingCategories/TrendingCategories"
 import ZenZoneButton from "@/components/ZenZoneButton/ZenZoneButton"
+import Footer from "@/components/Footer/Footer" 
 import { nftExamples, trendingCreators } from "@/lib/data"
 
 export default function Home() {
@@ -49,6 +50,7 @@ export default function Home() {
         <Explorer walletAddress={walletAddress} nfts={filteredNFTs} />
         <TrendingCreators creators={trendingCreators.slice(0, 5)} />
         <TrendingCategories />
+        <Footer />
       </main>
       <Navbar />
     </div>
