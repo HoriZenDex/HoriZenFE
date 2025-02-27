@@ -116,10 +116,14 @@ export default function UploadModal({ isOpen, onClose }: UploadModalProps) {
                 id="bonusOption"
                 checked={isBonusEnabled}
                 onChange={(e) => setIsBonusEnabled(e.target.checked)}
-                className="rounded border-gray-300 text-cosmic-cyan focus:ring-cosmic-cyan"
+                className="rounded border-cosmic-cyan text-cosmic-cyan focus:ring-cosmic-cyan focus:ring-offset-2 focus:ring-offset-[#0f1218] w-5 h-5 transition-all duration-300 cursor-pointer"
               />
-              <Label htmlFor="bonusOption" className="text-white">
-                Enable Bonus Option
+              <Label
+                htmlFor="bonusOption"
+                className="flex items-center space-x-2 text-lg font-semibold bg-gradient-to-r from-cosmic-cyan to-purple-500 text-transparent bg-clip-text cursor-pointer group"
+              >
+                <span className="transition-transform group-hover:scale-110 duration-300 ease-in-out">🌟</span>
+                <span className="transition-all group-hover:text-cosmic-cyan duration-300">Enable Bonus Feature</span>
               </Label>
             </div>
 
