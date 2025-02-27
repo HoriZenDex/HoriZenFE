@@ -17,6 +17,9 @@ import {
 import { LogIn, UserPlus, User, ChevronDown, Search } from "lucide-react"
 import Image from "next/image"
 import UserProfileDialog from "@/components/UserProfile/UserProfileDialog"
+import { WalletOptions } from "../WalletOptions"
+import { Account } from "../account"
+import { useAccount } from "wagmi"
 
 interface ExplorerHeaderProps {
   walletAddress: string | null
@@ -24,6 +27,12 @@ interface ExplorerHeaderProps {
   disconnectWallet: () => void
   searchTerm: string
   setSearchTerm: (term: string) => void
+}
+
+function ConnectWallet() {
+  const { isConnected } = useAccount()
+  if (isConnected) return <Account />
+  return <WalletOptions />
 }
 
 export default function ExplorerHeader({
@@ -70,7 +79,7 @@ export default function ExplorerHeader({
               />
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
             </div>
-            <DropdownMenu>
+            {/* <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
@@ -131,7 +140,8 @@ export default function ExplorerHeader({
                   </>
                 )}
               </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu> */}
+            <ConnectWallet />
           </div>
         </div>
       </div>

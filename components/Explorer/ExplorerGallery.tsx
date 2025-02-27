@@ -1,15 +1,18 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import type { NFT } from "@/lib/types"
 import { ViewIcon as View360 } from "lucide-react"
+import { useReadContract } from 'wagmi'
+import { abi } from '../../VideoNFTMarketplace.json'
 
 interface ExplorerGalleryProps {
   onSelectNFT: (nft: NFT) => void
   filteredNFTs: NFT[]
   currentFilter: "all" | "image" | "video"
   setCurrentFilter: (filter: "all" | "image" | "video") => void
+  contractAddress: `0x${string}`
 }
 
 export default function ExplorerGallery({
@@ -17,8 +20,27 @@ export default function ExplorerGallery({
   filteredNFTs,
   currentFilter,
   setCurrentFilter,
+  contractAddress,
 }: ExplorerGalleryProps) {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [selectedTokenId, setSelectedTokenId] = useState<number>(18)
+
+  const { data: tokenURI } = useReadContract({
+    address: contractAddress,
+    abi: abi,
+    functionName: 'tokenURI',
+    args: [BigInt(selectedTokenId)],
+  })
+
+  const handleNFTClick = (nft: NFT) => {
+    setSelectedTokenId(nft.id)
+    onSelectNFT(nft)
+  }
+
+  useEffect(() => {
+    if (tokenURI) {
+      console.log(`TokenURI for token ${selectedTokenId}:`, tokenURI)
+    }
+  }, [tokenURI, selectedTokenId])
 
   return (
     <div className="flex-1 overflow-hidden p-6">
@@ -40,7 +62,7 @@ export default function ExplorerGallery({
           <div
             key={nft.id}
             className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group"
-            onClick={() => onSelectNFT(nft)}
+            onClick={() => handleNFTClick(nft)}
           >
             <Image src={nft.url || "/placeholder.svg"} alt={nft.title} layout="fill" objectFit="cover" />
             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-70 transition-all duration-300 flex items-center justify-center">
