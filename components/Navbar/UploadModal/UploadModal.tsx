@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import { Upload, X } from "lucide-react"
+import { Upload } from "lucide-react"
 
 interface UploadModalProps {
   isOpen: boolean
@@ -37,11 +37,8 @@ export default function UploadModal({ isOpen, onClose }: UploadModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px] bg-[#0f1218] border-cosmic-mint/20 p-0">
-        <DialogHeader className="p-6 pb-0 relative">
+        <DialogHeader className="p-6">
           <DialogTitle className="text-2xl font-bold text-white">Upload Video</DialogTitle>
-          <button onClick={onClose} className="absolute right-6 top-6 text-gray-400 hover:text-white transition-colors">
-            <X className="h-5 w-5" />
-          </button>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6 p-6">
           <div className="space-y-2">
