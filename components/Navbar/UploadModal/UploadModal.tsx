@@ -135,14 +135,17 @@ export default function UploadModal({ isOpen, onClose }: UploadModalProps) {
               </Label>
             </motion.div>
 
-            <AnimatePresence>
+            <AnimatePresence mode="popLayout">
               {isBonusEnabled && (
                 <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                  className="space-y-2"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{
+                    opacity: { duration: 0.2 },
+                    height: { duration: 0.3, ease: "easeInOut" },
+                  }}
+                  className="space-y-2 overflow-hidden"
                 >
                   <Label htmlFor="bonusFile" className="text-white">
                     Bonus Content (Video/Image)
