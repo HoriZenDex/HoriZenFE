@@ -20,6 +20,8 @@ export default function UploadModal({ isOpen, onClose }: UploadModalProps) {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [duration, setDuration] = useState("")
+  const [bonusFile, setBonusFile] = useState<File | null>(null)
+  const [isBonusEnabled, setIsBonusEnabled] = useState(false)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -27,10 +29,16 @@ export default function UploadModal({ isOpen, onClose }: UploadModalProps) {
     }
   }
 
+  const handleBonusFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setBonusFile(e.target.files[0])
+    }
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // Handle upload logic here
-    console.log({ file, title, description, duration })
+    console.log({ file, title, description, duration, bonusFile, isBonusEnabled })
     onClose()
   }
 
@@ -101,7 +109,51 @@ export default function UploadModal({ isOpen, onClose }: UploadModalProps) {
             </div>
           </div>
 
-          <div className="pt-4">
+          <div className="space-y-4 pt-4">
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="bonusOption"
+                checked={isBonusEnabled}
+                onChange={(e) => setIsBonusEnabled(e.target.checked)}
+                className="rounded border-gray-300 text-cosmic-cyan focus:ring-cosmic-cyan"
+              />
+              <Label htmlFor="bonusOption" className="text-white">
+                Enable Bonus Option
+              </Label>
+            </div>
+
+            {isBonusEnabled && (
+              <div className="space-y-2">
+                <Label htmlFor="bonusFile" className="text-white">
+                  Bonus Video/Image
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="bonusFile"
+                    type="file"
+                    accept="video/*,image/*"
+                    onChange={handleBonusFileChange}
+                    className="hidden"
+                  />
+                  <div className="flex items-center gap-2">
+                    <Button
+                      type="button"
+                      onClick={() => document.getElementById("bonusFile")?.click()}
+                      variant="outline"
+                      className="w-full bg-[#1a1f2a] border-gray-700 text-white hover:bg-[#2a3142] hover:text-cosmic-cyan transition-all duration-300"
+                    >
+                      <Upload className="h-4 w-4 mr-2" />
+                      Choose Bonus File
+                    </Button>
+                    <span className="text-gray-400 text-sm">{bonusFile ? bonusFile.name : "No file chosen"}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="pt-6">
             <Button
               type="submit"
               className="w-full bg-cosmic-cyan hover:bg-[#08fcdb] text-black font-semibold py-6 rounded-md transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg hover:shadow-cosmic-cyan/20"
