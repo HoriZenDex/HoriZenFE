@@ -17,7 +17,7 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("")
   const [filteredNFTs, setFilteredNFTs] = useState<NFT[]>([])
   const [filteredCreators, setFilteredCreators] = useState(trendingCreators)
-  const NFT_CONTRACT_ADDRESS = '0x14ADd3487eEb29c3902fB0cd2Fc8B6c69cdAA2cD'
+  const NFT_CONTRACT_ADDRESS = '0xc019E0362Be2A56b540130Ed40998608C5957b20'
 
   const connectWallet = () => {
     const mockAddress = "0x" + Math.random().toString(16).substr(2, 40)
@@ -31,7 +31,7 @@ export default function Home() {
     isLoading,
   } = useNFTMetadata({
     contractAddress: NFT_CONTRACT_ADDRESS,
-    tokenIds: [19,20]
+    tokenIds: [1,2,3,4,5,6]
   })
 
   const disconnectWallet = () => {

@@ -16,7 +16,7 @@ import { pinata } from "@/utils/config"
 interface UploadModalProps {
   isOpen: boolean
   onClose: () => void
-  onSuccess?: (tokenUri: string) => void
+  onSuccess?: (tokenUris: { mainTokenUri: string; bonusTokenUri?: string }) => void
 }
 
 // Definimos la interfaz para la respuesta de Pinata
@@ -33,8 +33,6 @@ interface NFTMetadata {
   description: string
   type: string
   image: string
-  bonusContent?: string  // Propiedad opcional para contenido adicional
-  bonusType?: string     // Propiedad opcional para el tipo del contenido adicional
 }
 
 export default function UploadModal({ isOpen, onClose, onSuccess }: UploadModalProps) {
@@ -73,7 +71,12 @@ export default function UploadModal({ isOpen, onClose, onSuccess }: UploadModalP
         return
       }
 
-      console.log("entre hanlde submit");
+      if (isBonusEnabled && !bonusFile) {
+        setError("Please select a bonus file or disable the bonus feature")
+        return
+      }
+
+      console.log("Starting upload process...");
 
       try {
         setIsUploading(true)
@@ -87,50 +90,76 @@ export default function UploadModal({ isOpen, onClose, onSuccess }: UploadModalP
         const contentIpfsHash = contentUpload.IpfsHash
         const contentUrl = `${pinata.config?.pinataGateway}/ipfs/${contentIpfsHash}`
         
-        // 2. Upload bonus file if enabled
-        let bonusFileIpfsHash = null
-        if (isBonusEnabled && bonusFile) {
-          const bonusUpload = await pinata.upload.file(bonusFile).addMetadata({
-            name:`${title}-2`
-          })
-          bonusFileIpfsHash = bonusUpload.IpfsHash
-        }
-        
-        // 3. Create metadata
-        const metadata: NFTMetadata = {
+        // 2. Create main NFT metadata
+        const mainMetadata: NFTMetadata = {
           id: nanoid(),
           name: title,
           description: description,
           type: getFileType(file),
-          image: contentUrl // Utilizamos la URL completa formada manualmente
+          image: contentUrl
         }
         
-        // Add bonus content to metadata if present
-        if (bonusFileIpfsHash) {
-          metadata.bonusContent = `${pinata.config?.pinataGateway}/ipfs/${bonusFileIpfsHash}`
-          metadata.bonusType = getFileType(bonusFile!)
-        }
-        
-        // 4. Upload metadata to Pinata
-        const metadataFile = new File(
-          [JSON.stringify(metadata, null, 2)], 
-          `${metadata.id}.json`, 
+        // 3. Upload main metadata to Pinata
+        const mainMetadataFile = new File(
+          [JSON.stringify(mainMetadata, null, 2)], 
+          `${mainMetadata.id}.json`, 
           { type: "application/json" }
         )
         
-        const metadataUpload = await pinata.upload.file(metadataFile).addMetadata({
+        const mainMetadataUpload = await pinata.upload.file(mainMetadataFile).addMetadata({
           name: `${title} - Metadata`
         })
         
-        // 5. Get the URI for minting the NFT - construimos la URL manualmente
-        const metadataIpfsHash = metadataUpload.IpfsHash
-        const tokenUri = `https://${pinata.config?.pinataGateway}/ipfs/${metadataIpfsHash}`
+        // 4. Get the URI for minting the main NFT
+        const mainMetadataIpfsHash = mainMetadataUpload.IpfsHash
+        const mainTokenUri = `${pinata.config?.pinataGateway}/ipfs/${mainMetadataIpfsHash}`
+        console.log("IFPSHash");
+        console.log(mainMetadataIpfsHash);
+        // Variables para el resultado final
+        let bonusTokenUri: string | undefined = undefined;
+        
+        // 5. Process bonus content if enabled
+        if (isBonusEnabled && bonusFile) {
+          // Upload bonus file
+          const bonusUpload = await pinata.upload.file(bonusFile).addMetadata({
+            name: `${title} - Bonus`
+          })
+          const bonusIpfsHash = bonusUpload.IpfsHash
+          const bonusUrl = `${pinata.config?.pinataGateway}/ipfs/${bonusIpfsHash}`
+          
+          // Create bonus NFT metadata
+          const bonusMetadata: NFTMetadata = {
+            id: nanoid(),
+            name: `${title} - Bonus`,
+            description: `Bonus content for ${title}`,
+            type: getFileType(bonusFile),
+            image: bonusUrl
+          }
+          
+          // Upload bonus metadata
+          const bonusMetadataFile = new File(
+            [JSON.stringify(bonusMetadata, null, 2)], 
+            `${bonusMetadata.id}.json`, 
+            { type: "application/json" }
+          )
+          
+          const bonusMetadataUpload = await pinata.upload.file(bonusMetadataFile).addMetadata({
+            name: `${title} - Bonus Metadata`
+          })
+          
+          // Get the URI for minting the bonus NFT
+          const bonusMetadataIpfsHash = bonusMetadataUpload.IpfsHash
+          bonusTokenUri = `${pinata.config?.pinataGateway}/ipfs/${bonusMetadataIpfsHash}`
+
+          console.log("BonusIFPSHash");
+          console.log(bonusMetadataIpfsHash);
+        }
         
         console.log("Upload successful:", {
-          contentUrl: contentUrl,
-          metadataUrl: tokenUri,
-          metadata
+          mainTokenUri,
+          bonusTokenUri
         })
+
         
         // Reset form
         setFile(null)
@@ -141,7 +170,10 @@ export default function UploadModal({ isOpen, onClose, onSuccess }: UploadModalP
         
         // Notify parent component of success
         if (onSuccess) {
-          onSuccess(tokenUri)
+          onSuccess({
+            mainTokenUri,
+            bonusTokenUri
+          })
         }
         
         onClose()

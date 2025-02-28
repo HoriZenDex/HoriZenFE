@@ -35,6 +35,8 @@ export function useNFTMetadata({ contractAddress, tokenIds}: UseNFTTokenURIsProp
   
   // Función para obtener datos de Pinata - simplificada
   const fetchPinataData = useCallback(async () => {
+    console.log("result");
+    console.log(result.data);
     if (!result.data || isLoading) return;
     
     setIsLoading(true);
@@ -45,21 +47,23 @@ export function useNFTMetadata({ contractAddress, tokenIds}: UseNFTTokenURIsProp
       const { data } = await pinata.gateways.get(result.data[i].result as string);
       newMetadataArray.push(data);
     }
+    console.log("newMetadataArray");
+    console.log(newMetadataArray);
 
-    const processedMetadata = newMetadataArray.map((item: any) => {
-      if (item?.related_video) {
-        return {
-          ...item,
-          related_video: item.related_video.replace('ipfs://', '')
-        };
-      }
-      return item;
-    });
+    // const processedMetadata = newMetadataArray.map((item: any) => {
+    //   if (item?.related_video) {
+    //     return {
+    //       ...item,
+    //       related_video: item.related_video.replace('ipfs://', '')
+    //     };
+    //   }
+    //   return item;
+    // });
     
-    const mergedData = mergeNFTData(processedMetadata);
-    setMergedNFTs(mergedData);
-    setDataLoaded(true);
-    setIsLoading(false);
+    // const mergedData = mergeNFTData(processedMetadata);
+    // setMergedNFTs(mergedData);
+    // setDataLoaded(true);
+    // setIsLoading(false);
   }, [result.data, isLoading]);
 
   
