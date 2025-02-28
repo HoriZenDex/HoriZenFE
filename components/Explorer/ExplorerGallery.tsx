@@ -6,6 +6,7 @@ import type { NFT } from "@/lib/types"
 import { ViewIcon as View360 } from "lucide-react"
 import { useReadContract } from 'wagmi'
 import { abi } from '../../VideoNFTMarketplace.json'
+import { useNFTMetadata } from "@/hooks/use-nft-metadata"
 
 interface ExplorerGalleryProps {
   onSelectNFT: (nft: NFT) => void
@@ -23,6 +24,12 @@ export default function ExplorerGallery({
   contractAddress,
 }: ExplorerGalleryProps) {
   const [selectedTokenId, setSelectedTokenId] = useState<number>(18)
+  const { metadata, isLoading, result } = useNFTMetadata({
+    contractAddress: contractAddress,
+    tokenIds: [18,17,16,15]
+  })
+  console.log(metadata);
+  console.log(result.data);
 
   const { data: tokenURI } = useReadContract({
     address: contractAddress,
