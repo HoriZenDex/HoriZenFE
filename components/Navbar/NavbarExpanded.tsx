@@ -6,36 +6,16 @@ import { ChevronDown, Upload } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import VideoUploadModal from "@/components/VideoUploadModal"
-import { useAccount, useConnect, useDisconnect, useReadContract } from 'wagmi'
-import { abi } from '../../VideoNFTMarketplace.json' // Asegúrate de que la ruta sea correcta
 
 interface NavbarExpandedProps {
   setIsExpanded: () => void
 }
-
-// Agregar esta constante fuera del componente
-const CONTRACT_ADDRESS = "0x14ADd3487eEb29c3902fB0cd2Fc8B6c69cdAA2cD"
 
 export default function NavbarExpanded({ setIsExpanded }: NavbarExpandedProps) {
   const [isVisible, setIsVisible] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const lastScrollY = useRef(0)
   const animationFrame = useRef<number | null>(null)
-  const { address, isConnected } = useAccount()
-  const { disconnect } = useDisconnect()
-
-  // Mover el hook useReadContract dentro del componente
-  const { data: owner } = useReadContract({
-    address: CONTRACT_ADDRESS,
-    abi: abi,
-    functionName: 'items',
-    args: [1],
-  }) as { data: string | undefined }
-
-  // Función para manejar el click del botón
-  const handleGetOwner = () => {
-    console.log('Owner address:', owner)
-  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -89,12 +69,6 @@ export default function NavbarExpanded({ setIsExpanded }: NavbarExpandedProps) {
             </Link>
           </div>
         </div>
-        <Button onClick={handleGetOwner}>Get Owner</Button>
-        {owner && (
-          <div className="mt-2 text-sm">
-            Owner: {owner.toString()}
-          </div>
-        )}
         <div className="flex flex-col items-center justify-between w-full h-full px-8 py-6 overflow-y-auto scrollbar-hide bg-gradient-to-b from-black/40 via-black/40 to-black/40 backdrop-blur-sm">
           <div className="w-full max-w-4xl space-y-8">
             <div className="flex justify-center">
