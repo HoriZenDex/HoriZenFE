@@ -24,30 +24,18 @@ export default function ExplorerGallery({
   contractAddress,
 }: ExplorerGalleryProps) {
   const [selectedTokenId, setSelectedTokenId] = useState<number>(18)
-  const { metadata, isLoading, result } = useNFTMetadata({
+  const { metadata, isLoading, result, videoCID } = useNFTMetadata({
     contractAddress: contractAddress,
     tokenIds: [18,17,16,15]
   })
   console.log(metadata);
   console.log(result.data);
-
-  const { data: tokenURI } = useReadContract({
-    address: contractAddress,
-    abi: abi,
-    functionName: 'tokenURI',
-    args: [BigInt(selectedTokenId)],
-  })
+  
 
   const handleNFTClick = (nft: NFT) => {
     setSelectedTokenId(nft.id)
     onSelectNFT(nft)
   }
-
-  useEffect(() => {
-    if (tokenURI) {
-      console.log(`TokenURI for token ${selectedTokenId}:`, tokenURI)
-    }
-  }, [tokenURI, selectedTokenId])
 
   return (
     <div className="flex-1 overflow-hidden p-6">
@@ -71,7 +59,19 @@ export default function ExplorerGallery({
             className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group"
             onClick={() => handleNFTClick(nft)}
           >
-            <Image src={nft.url || "/placeholder.svg"} alt={nft.title} layout="fill" objectFit="cover" />
+            {nft.type === 'video' ? (
+              <video 
+                src={`https://indigo-left-leopard-680.mypinata.cloud/ipfs/${videoCID}`}
+                className="w-full h-full object-cover"
+                muted
+                loop
+                playsInline
+                onMouseOver={(e) => e.currentTarget.play()}
+                onMouseOut={(e) => e.currentTarget.pause()}
+              />
+            ) : (
+              <Image src={nft.url || "/placeholder.svg"} alt={nft.title} layout="fill" objectFit="cover" />
+            )}
             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-70 transition-all duration-300 flex items-center justify-center">
               <p className="text-white text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 {nft.title}

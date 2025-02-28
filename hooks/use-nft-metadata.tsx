@@ -2,6 +2,7 @@ import { useReadContracts } from 'wagmi';
 import { useState, useEffect } from 'react';
 import { Abi } from 'viem';
 import { abi } from '../VideoNFTMarketplace.json';
+import { pinata } from '@/utils/config';
 
 interface TokenURI {
   tokenId: string | number;
@@ -33,6 +34,7 @@ export function useNFTMetadata({ contractAddress, tokenIds}: UseNFTTokenURIsProp
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isMetadataFetched, setIsMetadataFetched] = useState(null);
+  const [videoCID, setVideoCID] = useState<string | null>(null);
 
   // Prepare contract calls for each token ID
   const contractCalls = tokenIds.map((id) => ({
@@ -46,6 +48,19 @@ export function useNFTMetadata({ contractAddress, tokenIds}: UseNFTTokenURIsProp
   const result = useReadContracts({
     contracts: contractCalls,
   });
+
+  useEffect(() => {
+    const fetchPinataData = async () => {
+        const { data, contentType } = await pinata.gateways.get("QmPdVuqxo3mh14WQWfg4seTaTBzea2KWfXqofsR28G9j4G");
+        console.log("data");
+        console.log(data);
+        console.log("contentType");
+        console.log(contentType);
+        setVideoCID("QmUQjECfNqRb8S9RhBmxYHhkNsDyFxwmJEeGY4D3pueq5T");
+      };
+    
+    fetchPinataData();
+  }, []);
   
   return {
     tokenURIs,
@@ -53,6 +68,7 @@ export function useNFTMetadata({ contractAddress, tokenIds}: UseNFTTokenURIsProp
     isLoading,
     error,
     refetch: result.refetch,
-    result
+    result,
+    videoCID
   }
 }
