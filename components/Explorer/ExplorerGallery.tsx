@@ -24,13 +24,14 @@ export default function ExplorerGallery({
   contractAddress,
 }: ExplorerGalleryProps) {
   const [selectedTokenId, setSelectedTokenId] = useState<number>(18)
-  const { metadata, isLoading, result, videoCID } = useNFTMetadata({
-    contractAddress: contractAddress,
-    tokenIds: [18,17,16,15]
-  })
-  console.log(metadata);
-  console.log(result.data);
-  
+  // const { result, videoCIDArray, metadataArray } = useNFTMetadata({
+  //   contractAddress: contractAddress,
+  //   tokenIds: [19,20]
+  // })
+  // console.log("metadataArrayXD");
+  // console.log(metadataArray);
+  // console.log("videoCIDArrayXD");
+  // console.log(videoCIDArray);
 
   const handleNFTClick = (nft: NFT) => {
     setSelectedTokenId(nft.id)
@@ -61,10 +62,11 @@ export default function ExplorerGallery({
           >
             {nft.type === 'video' ? (
               <video 
-                src={`https://indigo-left-leopard-680.mypinata.cloud/ipfs/${videoCID}`}
+                src={nft.url}
                 className="w-full h-full object-cover"
                 muted
                 loop
+                autoPlay
                 playsInline
                 onMouseOver={(e) => e.currentTarget.play()}
                 onMouseOut={(e) => e.currentTarget.pause()}

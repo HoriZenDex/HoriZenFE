@@ -18,7 +18,7 @@ export const nftExamples: NFT[] = [
   },
   {
     id: 2,
-    title: "Digital Dreams",
+    title: "Beach video 1",
     creator: "CyberArtist",
     price: "0.7 ETH",
     type: "video",
@@ -46,7 +46,7 @@ export const nftExamples: NFT[] = [
   },
   {
     id: 4,
-    title: "Quantum Quasar",
+    title: "Beach video 1",
     creator: "SpaceWizard",
     price: "0.8 ETH",
     type: "video",
@@ -74,7 +74,7 @@ export const nftExamples: NFT[] = [
   },
   {
     id: 6,
-    title: "Cybernetic Symphony",
+    title: "Beach video 1",
     creator: "NeonMaster",
     price: "0.9 ETH",
     type: "video",
@@ -102,7 +102,7 @@ export const nftExamples: NFT[] = [
   },
   {
     id: 8,
-    title: "Quantum Echoes",
+    title: "Beach video 1",
     creator: "WaveRider",
     price: "0.75 ETH",
     type: "video",
@@ -373,4 +373,29 @@ export const zenContent = [
   },
   // ... (update the rest of the zenContent items with creatorId)
 ]
+
+// Nueva función para combinar datos estáticos con datos de la blockchain
+export function mergeNFTData(onChainMetadata: any[], staticNFTs: NFT[] = nftExamples): NFT[] {
+  // Crear una copia para no modificar los originales
+  const mergedNFTs = [...staticNFTs];
+  
+  // Actualizar las URLs basadas en la metadata
+  mergedNFTs.forEach((nft) => {
+    onChainMetadata.forEach((data) => {
+      if (nft.title === data.name) {
+        // Actualizar la URL solo si hay related_video
+        if (data.related_video) {
+          nft.url = `https://gateway.pinata.cloud/ipfs/${data.related_video}`;
+        }
+        
+        // También puedes actualizar otros campos
+        if (data.description) {
+          nft.description = data.description;
+        }
+      }
+    });
+  });
+  
+  return mergedNFTs;
+}
 

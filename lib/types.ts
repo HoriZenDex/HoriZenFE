@@ -15,6 +15,7 @@ export interface NFT {
   hasKeyBenefit: boolean
   url: string
   is360: boolean
+  description?: string
 }
 
 export interface BonusFeature {
