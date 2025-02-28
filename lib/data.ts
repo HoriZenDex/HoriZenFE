@@ -15,6 +15,7 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: true,
     url: "/placeholder.svg?height=400&width=600",
     is360: true,
+    image: undefined
   },
   {
     id: 2,
@@ -29,6 +30,7 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: false,
     url: "/placeholder.svg?height=400&width=600",
     is360: false,
+    image: undefined
   },
   {
     id: 3,
@@ -43,6 +45,7 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: true,
     url: "/placeholder.svg?height=400&width=600",
     is360: true,
+    image: undefined
   },
   {
     id: 4,
@@ -57,6 +60,7 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: true,
     url: "/placeholder.svg?height=400&width=600",
     is360: true,
+    image: undefined
   },
   {
     id: 5,
@@ -71,6 +75,7 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: false,
     url: "/placeholder.svg?height=400&width=600",
     is360: false,
+    image: undefined
   },
   {
     id: 6,
@@ -85,6 +90,7 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: true,
     url: "/placeholder.svg?height=400&width=600",
     is360: true,
+    image: undefined
   },
   {
     id: 7,
@@ -99,6 +105,7 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: true,
     url: "/placeholder.svg?height=400&width=600",
     is360: false,
+    image: undefined
   },
   {
     id: 8,
@@ -113,6 +120,7 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: false,
     url: "/placeholder.svg?height=400&width=600",
     is360: true,
+    image: undefined
   },
 ]
 
@@ -133,7 +141,7 @@ export const keyBenefit: KeyBenefit = {
   description: "Enjoy exclusive benefits for life as a key holder.",
 }
 
-export const videoNFTs = nftExamples.filter((nft) => nft.type === "video")
+// export const videoNFTs = nftExamples.filter((nft) => nft.type === "video")
 
 export interface CreatorContent {
   id: string
@@ -375,27 +383,24 @@ export const zenContent = [
 ]
 
 // Nueva función para combinar datos estáticos con datos de la blockchain
-export function mergeNFTData(onChainMetadata: any[], staticNFTs: NFT[] = nftExamples): NFT[] {
+export function mergeNFTData(onChainMetadata: any[]): NFT[] {
   // Crear una copia para no modificar los originales
-  const mergedNFTs = [...staticNFTs];
+  const mergedNFTs = [...onChainMetadata];
+
+  // Lista de creadores para asignar aleatoriamente
+  const creatorNames = ["StarGazer", "CyberArtist", "GlowMaster", "SpaceWizard", "DreamWeaver", "NeonMaster"];
   
-  // Actualizar las URLs basadas en la metadata
-  mergedNFTs.forEach((nft) => {
-    onChainMetadata.forEach((data) => {
-      if (nft.title === data.name) {
-        // Actualizar la URL solo si hay related_video
-        if (data.related_video) {
-          nft.url = `https://gateway.pinata.cloud/ipfs/${data.related_video}`;
-        }
-        
-        // También puedes actualizar otros campos
-        if (data.description) {
-          nft.description = data.description;
-        }
-      }
-    });
-  });
-  
-  return mergedNFTs;
+  // Procesar cada NFT
+  return mergedNFTs.map(nft => ({
+    ...nft,
+    creator: creatorNames[Math.floor(Math.random() * creatorNames.length)],
+    price: `${(Math.random() * 2).toFixed(2)} ETH`,
+    likes: Math.floor(Math.random() * 3000) + 500,
+    comments: Math.floor(Math.random() * 300) + 50,
+    shares: Math.floor(Math.random() * 200) + 30,
+    bonusFeatures: Math.floor(Math.random() * 3) + 1,
+    hasKeyBenefit: Boolean(Math.random() > 0.5),
+    is360: Boolean(Math.random() > 0.7)
+  }));
 }
 

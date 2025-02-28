@@ -49,21 +49,13 @@ export function useNFTMetadata({ contractAddress, tokenIds}: UseNFTTokenURIsProp
     }
     console.log("newMetadataArray");
     console.log(newMetadataArray);
-
-    // const processedMetadata = newMetadataArray.map((item: any) => {
-    //   if (item?.related_video) {
-    //     return {
-    //       ...item,
-    //       related_video: item.related_video.replace('ipfs://', '')
-    //     };
-    //   }
-    //   return item;
-    // });
     
-    // const mergedData = mergeNFTData(processedMetadata);
-    // setMergedNFTs(mergedData);
-    // setDataLoaded(true);
-    // setIsLoading(false);
+    const mergedData = mergeNFTData(newMetadataArray);
+    console.log("mergedData");
+    console.log(mergedData);  
+    setMergedNFTs(mergedData);
+    setDataLoaded(true);
+    setIsLoading(false);
   }, [result.data, isLoading]);
 
   

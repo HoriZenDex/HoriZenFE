@@ -24,14 +24,8 @@ export default function ExplorerGallery({
   contractAddress,
 }: ExplorerGalleryProps) {
   const [selectedTokenId, setSelectedTokenId] = useState<number>(18)
-  // const { result, videoCIDArray, metadataArray } = useNFTMetadata({
-  //   contractAddress: contractAddress,
-  //   tokenIds: [19,20]
-  // })
-  // console.log("metadataArrayXD");
-  // console.log(metadataArray);
-  // console.log("videoCIDArrayXD");
-  // console.log(videoCIDArray);
+  console.log("filteredNFTs");
+  console.log(filteredNFTs);
 
   const handleNFTClick = (nft: NFT) => {
     setSelectedTokenId(nft.id)
@@ -62,7 +56,7 @@ export default function ExplorerGallery({
           >
             {nft.type === 'video' ? (
               <video 
-                src={nft.url}
+                src={nft.image}
                 className="w-full h-full object-cover"
                 muted
                 loop
@@ -72,7 +66,7 @@ export default function ExplorerGallery({
                 onMouseOut={(e) => e.currentTarget.pause()}
               />
             ) : (
-              <Image src={nft.url || "/placeholder.svg"} alt={nft.title} layout="fill" objectFit="cover" />
+              <Image src={nft.image || "/placeholder.svg"} alt={nft.title} layout="fill" objectFit="cover" />
             )}
             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-70 transition-all duration-300 flex items-center justify-center">
               <p className="text-white text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
