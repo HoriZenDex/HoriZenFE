@@ -66,14 +66,13 @@ const zenContent = [
 export default function ZenZone() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPlaying, setIsPlaying] = useState(true)
-  const [isHovering, setIsHovering] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
   const currentContent = zenContent[currentIndex]
 
   useEffect(() => {
-    if (isPlaying && !isHovering) {
+    if (isPlaying) {
       intervalRef.current = setInterval(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % zenContent.length)
       }, 5000) // Change content every 5 seconds
@@ -84,17 +83,17 @@ export default function ZenZone() {
         clearInterval(intervalRef.current)
       }
     }
-  }, [isPlaying, isHovering])
+  }, [isPlaying])
 
   useEffect(() => {
     if (currentContent.type === "video" && videoRef.current) {
-      if (isPlaying && !isHovering) {
+      if (isPlaying) {
         videoRef.current.play()
       } else {
         videoRef.current.pause()
       }
     }
-  }, [currentContent, isPlaying, isHovering])
+  }, [currentContent, isPlaying])
 
   const nextContent = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % zenContent.length)
@@ -106,22 +105,6 @@ export default function ZenZone() {
 
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying)
-  }
-
-  const handleMouseEnter = () => {
-    setIsHovering(true)
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current)
-    }
-  }
-
-  const handleMouseLeave = () => {
-    setIsHovering(false)
-    if (isPlaying) {
-      intervalRef.current = setInterval(() => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % zenContent.length)
-      }, 5000)
-    }
   }
 
   const currentCreator = creators.find((creator) => creator.id === currentContent.creatorId)
@@ -142,11 +125,7 @@ export default function ZenZone() {
       <main className="flex-grow flex items-center justify-center p-8">
         <div className="w-full max-w-4xl">
           <h1 className="text-3xl font-bold text-cosmic-cyan mb-8 text-center">Zen Zone</h1>
-          <div
-            className="relative h-[60vh] overflow-hidden rounded-lg"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
+          <div className="relative h-[60vh] overflow-hidden rounded-lg" onClick={() => setIsPlaying(!isPlaying)}>
             <AnimatePresence initial={false}>
               <motion.div
                 key={currentIndex}

@@ -1,5 +1,5 @@
 {
-  "name": "my-v0-project",
+  "name": "HoriZenDex",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/is-prop-valid": "latest",
     "@emotion/is-prop-valid": "latest",
     "@hookform/resolvers": "^3.9.1",
     "@pinata/sdk": "^2.1.0",
@@ -48,16 +49,17 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
-    "date-fns": "4.1.0",
+    "date-fns": "3.6.0",
     "embla-carousel-react": "8.5.1",
-    "framer-motion": "latest",
+    "framer-motion": "^12.4.7",
     "input-otp": "1.4.1",
     "lucide-react": "^0.454.0",
-    "next": "14.2.16",
+    "next": "^14.2.24",
     "next-themes": "^0.4.4",
     "path": "latest",
     "pinata": "^1.10.1",
     "pinata-web3": "^0.5.4",
+    "path": "latest",
     "react": "^18",
     "react-day-picker": "8.10.1",
     "react-dom": "^18",
