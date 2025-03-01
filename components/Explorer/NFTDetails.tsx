@@ -74,7 +74,7 @@ export default function NFTDetails({ nft, onClose, onNavigate }: NFTDetailsProps
           <div className="absolute inset-0">
             {nft.type === "image" ? (
               <Image
-                src={nft.url || "/placeholder.svg"}
+                src={nft.image || "/placeholder.svg"}
                 alt={nft.title}
                 layout="fill"
                 objectFit="cover"
@@ -82,7 +82,7 @@ export default function NFTDetails({ nft, onClose, onNavigate }: NFTDetailsProps
               />
             ) : (
               <video
-                src={nft.url || "/placeholder.mp4"}
+                src={nft.image || "/placeholder.mp4"}
                 className="w-full h-full object-cover rounded-l-lg"
                 autoPlay
                 loop

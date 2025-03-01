@@ -15,10 +15,11 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: true,
     url: "/placeholder.svg?height=400&width=600",
     is360: true,
+    image: undefined
   },
   {
     id: 2,
-    title: "Digital Dreams",
+    title: "Beach video 1",
     creator: "CyberArtist",
     price: "0.7 ETH",
     type: "video",
@@ -29,6 +30,7 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: false,
     url: "/placeholder.svg?height=400&width=600",
     is360: false,
+    image: undefined
   },
   {
     id: 3,
@@ -43,10 +45,11 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: true,
     url: "/placeholder.svg?height=400&width=600",
     is360: true,
+    image: undefined
   },
   {
     id: 4,
-    title: "Quantum Quasar",
+    title: "Beach video 1",
     creator: "SpaceWizard",
     price: "0.8 ETH",
     type: "video",
@@ -57,6 +60,7 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: true,
     url: "/placeholder.svg?height=400&width=600",
     is360: true,
+    image: undefined
   },
   {
     id: 5,
@@ -71,10 +75,11 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: false,
     url: "/placeholder.svg?height=400&width=600",
     is360: false,
+    image: undefined
   },
   {
     id: 6,
-    title: "Cybernetic Symphony",
+    title: "Beach video 1",
     creator: "NeonMaster",
     price: "0.9 ETH",
     type: "video",
@@ -85,6 +90,7 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: true,
     url: "/placeholder.svg?height=400&width=600",
     is360: true,
+    image: undefined
   },
   {
     id: 7,
@@ -99,10 +105,11 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: true,
     url: "/placeholder.svg?height=400&width=600",
     is360: false,
+    image: undefined
   },
   {
     id: 8,
-    title: "Quantum Echoes",
+    title: "Beach video 1",
     creator: "WaveRider",
     price: "0.75 ETH",
     type: "video",
@@ -113,6 +120,7 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: false,
     url: "/placeholder.svg?height=400&width=600",
     is360: true,
+    image: undefined
   },
 ]
 
@@ -133,7 +141,7 @@ export const keyBenefit: KeyBenefit = {
   description: "Enjoy exclusive benefits for life as a key holder.",
 }
 
-export const videoNFTs = nftExamples.filter((nft) => nft.type === "video")
+// export const videoNFTs = nftExamples.filter((nft) => nft.type === "video")
 
 export interface CreatorContent {
   id: string
@@ -373,4 +381,26 @@ export const zenContent = [
   },
   // ... (update the rest of the zenContent items with creatorId)
 ]
+
+// Nueva función para combinar datos estáticos con datos de la blockchain
+export function mergeNFTData(onChainMetadata: any[]): NFT[] {
+  // Crear una copia para no modificar los originales
+  const mergedNFTs = [...onChainMetadata];
+
+  // Lista de creadores para asignar aleatoriamente
+  const creatorNames = ["StarGazer", "CyberArtist", "GlowMaster", "SpaceWizard", "DreamWeaver", "NeonMaster"];
+  
+  // Procesar cada NFT
+  return mergedNFTs.map(nft => ({
+    ...nft,
+    creator: creatorNames[Math.floor(Math.random() * creatorNames.length)],
+    price: `${(Math.random() * 2).toFixed(2)} ETH`,
+    likes: Math.floor(Math.random() * 3000) + 500,
+    comments: Math.floor(Math.random() * 300) + 50,
+    shares: Math.floor(Math.random() * 200) + 30,
+    bonusFeatures: Math.floor(Math.random() * 3) + 1,
+    hasKeyBenefit: Boolean(Math.random() > 0.5),
+    is360: Boolean(Math.random() > 0.7)
+  }));
+}
 

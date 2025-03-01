@@ -7,21 +7,42 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import { Upload, Sparkles, AlertCircle } from "lucide-react"
+import { Upload, Sparkles, AlertCircle, Loader2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { nanoid } from 'nanoid'
+import { pinata } from "@/utils/config"
 
 interface UploadModalProps {
   isOpen: boolean
   onClose: () => void
+  onSuccess?: (tokenUris: { mainTokenUri: string; bonusTokenUri?: string }) => void
 }
 
-export default function UploadModal({ isOpen, onClose }: UploadModalProps) {
+// Definimos la interfaz para la respuesta de Pinata
+interface PinataResponse {
+  IpfsHash: string;
+  PinSize: number;
+  Timestamp: string;
+  isDuplicate?: boolean;
+}
+
+interface NFTMetadata {
+  id: string
+  name: string
+  description: string
+  type: string
+  image: string
+}
+
+export default function UploadModal({ isOpen, onClose, onSuccess }: UploadModalProps) {
   const [file, setFile] = useState<File | null>(null)
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [bonusFile, setBonusFile] = useState<File | null>(null)
   const [isBonusEnabled, setIsBonusEnabled] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -35,22 +56,143 @@ export default function UploadModal({ isOpen, onClose }: UploadModalProps) {
     }
   }, [])
 
+  const getFileType = (file: File): string => {
+    if (file.type.startsWith("image/")) return "image"
+    if (file.type.startsWith("video/")) return "video"
+    return "other"
+  }
+
   const handleSubmit = useCallback(
-    (e: React.FormEvent) => {
+    async (e: React.FormEvent) => {
       e.preventDefault()
-      // Handle upload logic here
-      console.log({ file, title, description, bonusFile, isBonusEnabled })
-      onClose()
+      
+      if (!file) {
+        setError("Please select a file to upload")
+        return
+      }
+
+      if (isBonusEnabled && !bonusFile) {
+        setError("Please select a bonus file or disable the bonus feature")
+        return
+      }
+
+      console.log("Starting upload process...");
+
+      try {
+        setIsUploading(true)
+        setError(null)
+        
+        // 1. Upload the main content file to Pinata
+        const contentUpload = await pinata.upload.file(file).addMetadata({
+          name: title
+        })
+        // Get IPFS hash from the response
+        const contentIpfsHash = contentUpload.IpfsHash
+        const contentUrl = `${pinata.config?.pinataGateway}/ipfs/${contentIpfsHash}`
+        
+        // 2. Create main NFT metadata
+        const mainMetadata: NFTMetadata = {
+          id: nanoid(),
+          name: title,
+          description: description,
+          type: getFileType(file),
+          image: contentUrl
+        }
+        
+        // 3. Upload main metadata to Pinata
+        const mainMetadataFile = new File(
+          [JSON.stringify(mainMetadata, null, 2)], 
+          `${mainMetadata.id}.json`, 
+          { type: "application/json" }
+        )
+        
+        const mainMetadataUpload = await pinata.upload.file(mainMetadataFile).addMetadata({
+          name: `${title} - Metadata`
+        })
+        
+        // 4. Get the URI for minting the main NFT
+        const mainMetadataIpfsHash = mainMetadataUpload.IpfsHash
+        const mainTokenUri = `${pinata.config?.pinataGateway}/ipfs/${mainMetadataIpfsHash}`
+        console.log("IFPSHash");
+        console.log(mainMetadataIpfsHash);
+        // Variables para el resultado final
+        let bonusTokenUri: string | undefined = undefined;
+        
+        // 5. Process bonus content if enabled
+        if (isBonusEnabled && bonusFile) {
+          // Upload bonus file
+          const bonusUpload = await pinata.upload.file(bonusFile).addMetadata({
+            name: `${title} - Bonus`
+          })
+          const bonusIpfsHash = bonusUpload.IpfsHash
+          const bonusUrl = `${pinata.config?.pinataGateway}/ipfs/${bonusIpfsHash}`
+          
+          // Create bonus NFT metadata
+          const bonusMetadata: NFTMetadata = {
+            id: nanoid(),
+            name: `${title} - Bonus`,
+            description: `Bonus content for ${title}`,
+            type: getFileType(bonusFile),
+            image: bonusUrl
+          }
+          
+          // Upload bonus metadata
+          const bonusMetadataFile = new File(
+            [JSON.stringify(bonusMetadata, null, 2)], 
+            `${bonusMetadata.id}.json`, 
+            { type: "application/json" }
+          )
+          
+          const bonusMetadataUpload = await pinata.upload.file(bonusMetadataFile).addMetadata({
+            name: `${title} - Bonus Metadata`
+          })
+          
+          // Get the URI for minting the bonus NFT
+          const bonusMetadataIpfsHash = bonusMetadataUpload.IpfsHash
+          bonusTokenUri = `${pinata.config?.pinataGateway}/ipfs/${bonusMetadataIpfsHash}`
+
+          console.log("BonusIFPSHash");
+          console.log(bonusMetadataIpfsHash);
+        }
+        
+        console.log("Upload successful:", {
+          mainTokenUri,
+          bonusTokenUri
+        })
+
+        
+        // Reset form
+        setFile(null)
+        setTitle("")
+        setDescription("")
+        setBonusFile(null)
+        setIsBonusEnabled(false)
+        
+        // Notify parent component of success
+        if (onSuccess) {
+          onSuccess({
+            mainTokenUri,
+            bonusTokenUri
+          })
+        }
+        
+        onClose()
+      } catch (err) {
+        console.error("Error uploading to Pinata:", err)
+        setError("Failed to upload to Pinata. Please try again.")
+      } finally {
+        setIsUploading(false)
+      }
     },
-    [file, title, description, bonusFile, isBonusEnabled, onClose],
+    [file, title, description, bonusFile, isBonusEnabled, onClose, onSuccess]
   )
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={(open) => !isUploading && onClose()}>
       <DialogContent className="sm:max-w-[600px] bg-[#0f1218] border-cosmic-mint/20 p-0">
         <DialogHeader className="p-6 pb-0">
-          <DialogTitle className="text-2xl font-bold text-white mb-2">Upload Content</DialogTitle>
-          <p className="text-gray-400 text-sm">Share your creativity with the HoriZen community</p>
+          <DialogTitle className="text-2xl font-bold text-white mb-2">Upload NFT Content</DialogTitle>
+          <p className="text-gray-400 text-sm">Share your creativity with the HoriZen community and mint as NFT</p>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-6 p-6">
           <div className="space-y-2">
@@ -61,7 +203,7 @@ export default function UploadModal({ isOpen, onClose }: UploadModalProps) {
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Enter content title"
+              placeholder="Enter NFT title"
               className="bg-[#1a1f2a] border-gray-700 text-white placeholder:text-gray-400 focus:border-cosmic-cyan/50 focus:ring-cosmic-cyan/50"
               required
             />
@@ -75,14 +217,14 @@ export default function UploadModal({ isOpen, onClose }: UploadModalProps) {
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Enter content description"
+              placeholder="Enter NFT description"
               className="min-h-[100px] bg-[#1a1f2a] border-gray-700 text-white placeholder:text-gray-400 focus:border-cosmic-cyan/50 focus:ring-cosmic-cyan/50"
             />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="video" className="text-white">
-              Content File
+              Content File (Video/Image)
             </Label>
             <div className="relative">
               <Input id="video" type="file" accept="video/*,image/*" onChange={handleFileChange} className="hidden" />
@@ -176,12 +318,27 @@ export default function UploadModal({ isOpen, onClose }: UploadModalProps) {
             </AnimatePresence>
           </div>
 
+          {error && (
+            <Alert className="bg-red-900/20 text-red-300 border-red-400/20">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+
           <div className="pt-6">
             <Button
               type="submit"
-              className="w-full bg-cosmic-cyan hover:bg-[#08fcdb] text-black font-semibold py-6 rounded-md transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg hover:shadow-cosmic-cyan/20"
+              disabled={isUploading}
+              className="w-full bg-cosmic-cyan hover:bg-[#08fcdb] text-black font-semibold py-6 rounded-md transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg hover:shadow-cosmic-cyan/20 disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              Upload Content
+              {isUploading ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Uploading to IPFS...
+                </>
+              ) : (
+                "Upload & Mint NFT"
+              )}
             </Button>
           </div>
         </form>
@@ -189,4 +346,3 @@ export default function UploadModal({ isOpen, onClose }: UploadModalProps) {
     </Dialog>
   )
 }
-

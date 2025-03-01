@@ -10,6 +10,8 @@ interface ExplorerProps {
   nfts: NFT[]
 }
 
+const NFT_CONTRACT_ADDRESS = '0x14ADd3487eEb29c3902fB0cd2Fc8B6c69cdAA2cD'
+
 export default function Explorer({ walletAddress, nfts }: ExplorerProps) {
   const [selectedNFT, setSelectedNFT] = useState<NFT | null>(null)
   const [currentFilter, setCurrentFilter] = useState<"all" | "image" | "video">("all")
@@ -49,6 +51,7 @@ export default function Explorer({ walletAddress, nfts }: ExplorerProps) {
           filteredNFTs={filteredNFTs}
           currentFilter={currentFilter}
           setCurrentFilter={setCurrentFilter}
+          contractAddress={NFT_CONTRACT_ADDRESS as `0x${string}`}
         />
       )}
     </div>

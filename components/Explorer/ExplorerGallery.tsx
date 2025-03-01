@@ -1,15 +1,19 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import type { NFT } from "@/lib/types"
 import { ViewIcon as View360 } from "lucide-react"
+import { useReadContract } from 'wagmi'
+import { abi } from '../../VideoNFTMarketplace.json'
+import { useNFTMetadata } from "@/hooks/use-nft-metadata"
 
 interface ExplorerGalleryProps {
   onSelectNFT: (nft: NFT) => void
   filteredNFTs: NFT[]
   currentFilter: "all" | "image" | "video"
   setCurrentFilter: (filter: "all" | "image" | "video") => void
+  contractAddress: `0x${string}`
 }
 
 export default function ExplorerGallery({
@@ -17,8 +21,16 @@ export default function ExplorerGallery({
   filteredNFTs,
   currentFilter,
   setCurrentFilter,
+  contractAddress,
 }: ExplorerGalleryProps) {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [selectedTokenId, setSelectedTokenId] = useState<number>(18)
+  console.log("filteredNFTs");
+  console.log(filteredNFTs);
+
+  const handleNFTClick = (nft: NFT) => {
+    setSelectedTokenId(nft.id)
+    onSelectNFT(nft)
+  }
 
   return (
     <div className="flex-1 overflow-hidden p-6">
@@ -40,9 +52,22 @@ export default function ExplorerGallery({
           <div
             key={nft.id}
             className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group"
-            onClick={() => onSelectNFT(nft)}
+            onClick={() => handleNFTClick(nft)}
           >
-            <Image src={nft.url || "/placeholder.svg"} alt={nft.title} layout="fill" objectFit="cover" />
+            {nft.type === 'video' ? (
+              <video 
+                src={nft.image}
+                className="w-full h-full object-cover"
+                muted
+                loop
+                autoPlay
+                playsInline
+                onMouseOver={(e) => e.currentTarget.play()}
+                onMouseOut={(e) => e.currentTarget.pause()}
+              />
+            ) : (
+              <Image src={nft.image || "/placeholder.svg"} alt={nft.title} layout="fill" objectFit="cover" />
+            )}
             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-70 transition-all duration-300 flex items-center justify-center">
               <p className="text-white text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 {nft.title}

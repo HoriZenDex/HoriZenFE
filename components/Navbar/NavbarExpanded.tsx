@@ -43,6 +43,8 @@ export default function NavbarExpanded({ setIsExpanded }: NavbarExpandedProps) {
     }
   }, [])
 
+  
+
   return (
     <>
       <div
