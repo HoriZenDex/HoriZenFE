@@ -12,6 +12,8 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { nanoid } from 'nanoid'
 import { pinata } from "@/utils/config"
+import { useWriteContract } from "wagmi";
+import { abi } from '@/VideoNFTMarketplace.json'
 
 interface UploadModalProps {
   isOpen: boolean
@@ -43,6 +45,7 @@ export default function UploadModal({ isOpen, onClose, onSuccess }: UploadModalP
   const [isBonusEnabled, setIsBonusEnabled] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const { writeContract } = useWriteContract();
 
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -154,13 +157,22 @@ export default function UploadModal({ isOpen, onClose, onSuccess }: UploadModalP
           console.log("BonusIFPSHash");
           console.log(bonusMetadataIpfsHash);
         }
+
+
         
         console.log("Upload successful:", {
           mainTokenUri,
           bonusTokenUri
         })
 
-        
+        const hash = await writeContract({
+          address: "0xc019E0362Be2A56b540130Ed40998608C5957b20",
+          abi: abi,
+          functionName: "mintVideoNFT",
+          args: [mainTokenUri, bonusTokenUri, 1]
+        });
+
+        console.log("Transaction hash:", hash);
         // Reset form
         setFile(null)
         setTitle("")

@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",
-    "@emotion/is-prop-valid": "latest",
     "@hookform/resolvers": "^3.9.1",
+    "@openzeppelin/contracts": "^5.2.0",
     "@pinata/sdk": "^2.1.0",
     "@radix-ui/react-accordion": "^1.2.2",
     "@radix-ui/react-alert-dialog": "^1.1.4",
@@ -59,7 +59,6 @@
     "path": "latest",
     "pinata": "^1.10.1",
     "pinata-web3": "^0.5.4",
-    "path": "latest",
     "react": "^18",
     "react-day-picker": "8.10.1",
     "react-dom": "^18",

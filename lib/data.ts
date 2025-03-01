@@ -15,7 +15,8 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: true,
     url: "/placeholder.svg?height=400&width=600",
     is360: true,
-    image: undefined
+    image: undefined,
+    tokenId: undefined
   },
   {
     id: 2,
@@ -30,7 +31,8 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: false,
     url: "/placeholder.svg?height=400&width=600",
     is360: false,
-    image: undefined
+    image: undefined,
+    tokenId: undefined
   },
   {
     id: 3,
@@ -45,7 +47,8 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: true,
     url: "/placeholder.svg?height=400&width=600",
     is360: true,
-    image: undefined
+    image: undefined,
+    tokenId: undefined
   },
   {
     id: 4,
@@ -60,7 +63,8 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: true,
     url: "/placeholder.svg?height=400&width=600",
     is360: true,
-    image: undefined
+    image: undefined,
+    tokenId: undefined
   },
   {
     id: 5,
@@ -75,7 +79,8 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: false,
     url: "/placeholder.svg?height=400&width=600",
     is360: false,
-    image: undefined
+    image: undefined,
+    tokenId: undefined
   },
   {
     id: 6,
@@ -90,7 +95,8 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: true,
     url: "/placeholder.svg?height=400&width=600",
     is360: true,
-    image: undefined
+    image: undefined,
+    tokenId: undefined
   },
   {
     id: 7,
@@ -105,7 +111,8 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: true,
     url: "/placeholder.svg?height=400&width=600",
     is360: false,
-    image: undefined
+    image: undefined,
+    tokenId: undefined
   },
   {
     id: 8,
@@ -120,7 +127,8 @@ export const nftExamples: NFT[] = [
     hasKeyBenefit: false,
     url: "/placeholder.svg?height=400&width=600",
     is360: true,
-    image: undefined
+    image: undefined,
+    tokenId: undefined
   },
 ]
 
@@ -389,6 +397,7 @@ export function mergeNFTData(onChainMetadata: any[]): NFT[] {
 
   // Lista de creadores para asignar aleatoriamente
   const creatorNames = ["StarGazer", "CyberArtist", "GlowMaster", "SpaceWizard", "DreamWeaver", "NeonMaster"];
+  let tokenId = 1;
   
   // Procesar cada NFT
   return mergedNFTs.map(nft => ({
@@ -400,7 +409,8 @@ export function mergeNFTData(onChainMetadata: any[]): NFT[] {
     shares: Math.floor(Math.random() * 200) + 30,
     bonusFeatures: Math.floor(Math.random() * 3) + 1,
     hasKeyBenefit: Boolean(Math.random() > 0.5),
-    is360: Boolean(Math.random() > 0.7)
+    is360: Boolean(Math.random() > 0.7),
+    tokenId: tokenId++
   }));
 }
 

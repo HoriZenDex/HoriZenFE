@@ -3,6 +3,7 @@ import type { LucideIcon } from "lucide-react"
 export type NFTType = "image" | "video"
 
 export interface NFT {
+  tokenId: unknown
   image: string | undefined
   id: number
   title: string

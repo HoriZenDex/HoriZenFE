@@ -22,18 +22,7 @@ async function uploadToPinata(file: File, name: string) {
     const formData = new FormData();
     formData.append('file', file);
     
-    // Usar la API de Pinata directamente
-    const response = await fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
-      method: 'POST',
-      headers: {
-        'pinata_api_key': "210a1baf1b6d0e79e7c0",
-        'pinata_secret_api_key': "d4467596dccd328dd9db25335dce97391dfcbbe4f9b9582b5161ffcf2e14c674"
-      },
-      body: formData
-    });
-    
-    const data = await response.json();
-    return data.IpfsHash;
+    return formData;
   } catch (error) {
     console.error('Error uploading to Pinata:', error);
     throw new Error('Failed to upload file to Pinata');
@@ -229,7 +218,7 @@ export default function VideoUploadModal({ isOpen, onClose }: VideoUploadModalPr
         
         console.log(`Uploading video ${i + 1}...`);
         const videoHash = await uploadToPinata(videoData.videoFile!, `Video ${i + 1}: ${videoData.title}`);
-        videoHashes.push(videoHash);
+
       }
       
       // Preparar metadatos para ambos videos

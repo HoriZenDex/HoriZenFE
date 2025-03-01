@@ -17,6 +17,8 @@ import {
 import Image from "next/image"
 import { bonusFeatures, keyBenefit, creators } from "@/lib/data"
 import { useRouter } from "next/navigation"
+import { useWriteContract } from "wagmi";
+import { abi } from '@/VideoNFTMarketplace.json'
 
 interface NFTDetailsProps {
   nft: NFT
@@ -28,12 +30,24 @@ export default function NFTDetails({ nft, onClose, onNavigate }: NFTDetailsProps
   const [isBonusHovered, setIsBonusHovered] = useState(false)
   const [isKeyHovered, setIsKeyHovered] = useState(false)
   const router = useRouter()
+  const { writeContract } = useWriteContract();
 
   const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose()
     }
   }
+  async function buyNFT() {
+    const hash = await writeContract({
+      address: "0xc019E0362Be2A56b540130Ed40998608C5957b20",
+      abi: abi,
+      functionName: "buyNFT",
+      args: [nft.tokenId,5]
+    });
+    console.log("nft.tokenId");
+    console.log(nft.tokenId);
+    console.log("Transaction hash:", hash);
+  } 
 
   const creator = creators.find((c) => c.name === nft.creator)
 
@@ -182,7 +196,7 @@ export default function NFTDetails({ nft, onClose, onNavigate }: NFTDetailsProps
               </div>
               <div className="flex flex-col items-center">
                 <span className="text-xl font-bold text-cosmic-cyan mb-2">{nft.price}</span>
-                <Button className="bg-[#03ceb3] hover:bg-[#08fcdb] text-gray-900 hover:text-black font-bold px-6 py-2 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:shadow-[#03ceb3]/50 relative overflow-hidden group">
+                <Button onClick={buyNFT} className="bg-[#03ceb3] hover:bg-[#08fcdb] text-gray-900 hover:text-black font-bold px-6 py-2 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:shadow-[#03ceb3]/50 relative overflow-hidden group">
                   <span className="relative z-10 flex items-center text-sm">
                     <ShoppingCart className="h-4 w-4 mr-2 transition-transform group-hover:animate-bounce" />
                     Buy Now
