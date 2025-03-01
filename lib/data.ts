@@ -30,7 +30,7 @@ export const nftExamples: NFT[] = [
     bonusFeatures: 1,
     hasKeyBenefit: false,
     url: "/placeholder.svg?height=400&width=600",
-    is360: false,
+    is360: true,
     image: undefined,
     tokenId: undefined
   },
@@ -400,7 +400,7 @@ export function mergeNFTData(onChainMetadata: any[]): NFT[] {
   let tokenId = 1;
   
   // Procesar cada NFT
-  return mergedNFTs.map(nft => ({
+  return mergedNFTs.map((nft) => ({
     ...nft,
     creator: creatorNames[Math.floor(Math.random() * creatorNames.length)],
     price: `${(Math.random() * 2).toFixed(2)} ETH`,
@@ -409,7 +409,7 @@ export function mergeNFTData(onChainMetadata: any[]): NFT[] {
     shares: Math.floor(Math.random() * 200) + 30,
     bonusFeatures: Math.floor(Math.random() * 3) + 1,
     hasKeyBenefit: Boolean(Math.random() > 0.5),
-    is360: Boolean(Math.random() > 0.7),
+    is360: nft.type === "video", // True si es video, false si no lo es
     tokenId: tokenId++
   }));
 }
