@@ -41,7 +41,7 @@ Our vision is to revolutionize the digital asset space by creating a platform wh
 - **Styling:** Tailwind CSS, Framer Motion
 - **UI Components:** shadcn/ui
 - **Icons:** Lucide React
-- **Blockchain Integration:** [Celestia](https://celestia.org/) and [Gelato](https://www.gelato.network/)
+- **Blockchain Integration:** [Celestia](https://celestia.org/) , [Gelato](https://www.gelato.network/) and [Pinata](https://app.pinata.cloud) 
 
 ## 👥 Team  
 
