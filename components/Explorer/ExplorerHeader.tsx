@@ -1,25 +1,15 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { LogIn, UserPlus, User, ChevronDown, Search } from "lucide-react"
+import { Search, Wallet } from "lucide-react"
 import Image from "next/image"
 import UserProfileDialog from "@/components/UserProfile/UserProfileDialog"
 import { WalletOptions } from "../WalletOptions"
 import { Account } from "../account"
-import { useAccount } from "wagmi"
+import { useAccount, useConnect } from "wagmi"
 
 interface ExplorerHeaderProps {
   walletAddress: string | null
@@ -31,8 +21,63 @@ interface ExplorerHeaderProps {
 
 function ConnectWallet() {
   const { isConnected } = useAccount()
-  if (isConnected) return <Account />
-  return <WalletOptions />
+  const [showWalletOptions, setShowWalletOptions] = useState(false)
+  
+  if (isConnected) {
+    return <Account />
+  }
+  
+  return (
+    <div className="relative">
+      <Button
+        className="bg-indigo-600 text-white hover:bg-indigo-700 rounded-full px-4 py-2 flex items-center space-x-2"
+        onClick={() => setShowWalletOptions(true)}
+      >
+        <Wallet className="h-4 w-4 mr-2" />
+        <span>Connect Wallet</span>
+      </Button>
+      
+      {showWalletOptions && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50" onClick={() => setShowWalletOptions(false)}>
+          <div className="bg-gray-900 border border-gray-800 rounded-lg p-6 w-full max-w-md mx-4" onClick={e => e.stopPropagation()}>
+            <h2 className="text-xl font-bold text-cyan-400 mb-4">Connect your wallet</h2>
+            <p className="text-gray-400 mb-6">Select a wallet to connect to HoriZenDex</p>
+            <div className="space-y-3">
+              <WalletModalContent onClose={() => setShowWalletOptions(false)} />
+            </div>
+            <p className="text-xs text-gray-500 mt-6">
+              By connecting your wallet, you agree to our Terms of Service and Privacy Policy
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// This is a wrapper component that directly uses the wallet connectors
+function WalletModalContent({ onClose }) {
+  const { connect, connectors } = useConnect()
+  
+  return (
+    <>
+      {connectors.map((connector) => (
+        <button 
+          key={connector.id}
+          className="w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg flex items-center gap-3 transition-colors border border-gray-700"
+          onClick={() => {
+            connect({ connector })
+            onClose()
+          }}
+        >
+          <span className="text-cyan-400">
+            <Wallet className="h-5 w-5" />
+          </span>
+          <span>{connector.name}</span>
+        </button>
+      ))}
+    </>
+  )
 }
 
 export default function ExplorerHeader({
@@ -43,10 +88,6 @@ export default function ExplorerHeader({
   setSearchTerm,
 }: ExplorerHeaderProps) {
   const [isProfileOpen, setIsProfileOpen] = useState(false)
-
-  const truncateAddress = (address: string) => {
-    return `${address.slice(0, 6)}...${address.slice(-4)}`
-  }
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value)
@@ -79,68 +120,6 @@ export default function ExplorerHeader({
               />
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
             </div>
-            {/* <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-9 px-2 gap-2 text-white bg-gradient-to-r from-cosmic-mint to-cosmic-purple hover:from-cosmic-purple hover:to-cosmic-mint transition-all duration-300 rounded-full shadow-md hover:shadow-lg hover:scale-105"
-                >
-                  <Avatar className="h-6 w-6">
-                    <AvatarImage src="/placeholder.svg" />
-                    <AvatarFallback className="bg-cosmic-mint/10 text-white">
-                      <User className="h-4 w-4" />
-                    </AvatarFallback>
-                  </Avatar>
-                  <span className="text-sm font-medium">
-                    {walletAddress ? truncateAddress(walletAddress) : "Guest User"}
-                  </span>
-                  <ChevronDown className="h-4 w-4 opacity-80" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                align="end"
-                className="w-56 bg-gray-900/95 border border-cosmic-mint/20 backdrop-blur-md"
-              >
-                <DropdownMenuLabel className="text-cosmic-mint">Account</DropdownMenuLabel>
-                <DropdownMenuSeparator className="bg-cosmic-mint/20" />
-                {!walletAddress ? (
-                  <>
-                    <DropdownMenuItem className="group cursor-pointer text-gray-200 focus:bg-cosmic-mint/10 focus:text-cosmic-mint">
-                      <LogIn className="mr-2 h-4 w-4 text-cosmic-mint group-hover:animate-pulse" />
-                      <span>Log In</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="group cursor-pointer text-gray-200 focus:bg-cosmic-mint/10 focus:text-cosmic-mint">
-                      <UserPlus className="mr-2 h-4 w-4 text-cosmic-mint group-hover:animate-pulse" />
-                      <span>Sign Up</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator className="bg-cosmic-mint/20" />
-                    <DropdownMenuItem
-                      onClick={connectWallet}
-                      className="group cursor-pointer text-gray-200 focus:bg-cosmic-mint/10 focus:text-cosmic-mint"
-                    >
-                      <span className="text-sm text-cosmic-mint group-hover:animate-pulse">Connect Wallet</span>
-                    </DropdownMenuItem>
-                  </>
-                ) : (
-                  <>
-                    <DropdownMenuItem
-                      onClick={() => setIsProfileOpen(true)}
-                      className="group cursor-pointer text-gray-200 focus:bg-cosmic-mint/10 focus:text-cosmic-mint"
-                    >
-                      <User className="mr-2 h-4 w-4 text-cosmic-mint group-hover:animate-pulse" />
-                      <span>My Profile</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={disconnectWallet}
-                      className="group cursor-pointer text-gray-200 focus:bg-cosmic-mint/10 focus:text-cosmic-mint"
-                    >
-                      <span className="text-sm text-rose-400 group-hover:animate-pulse">Disconnect Wallet</span>
-                    </DropdownMenuItem>
-                  </>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu> */}
             <ConnectWallet />
           </div>
         </div>
@@ -150,4 +129,3 @@ export default function ExplorerHeader({
     </>
   )
 }
-
