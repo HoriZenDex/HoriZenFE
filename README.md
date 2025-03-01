@@ -43,6 +43,7 @@ Our vision is to revolutionize the digital asset space by creating a platform wh
 - **Icons:** Lucide React
 - **Blockchain Integration:** [Celestia](https://celestia.org/) , [Gelato](https://www.gelato.network/) and [Pinata](https://app.pinata.cloud) 
 
+---
 ## 👥 Team  
 
 Horizen is brought to life by a dedicated team of developers and designers:
