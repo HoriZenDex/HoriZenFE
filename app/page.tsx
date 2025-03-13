@@ -31,7 +31,7 @@ export default function Home() {
     isLoading,
   } = useNFTMetadata({
     contractAddress: NFT_CONTRACT_ADDRESS,
-    tokenIds: [1,2,3,4,5,6,7]
+    tokenIds: [1,3,7,9,11,13,14,15]
   })
 
   const disconnectWallet = () => {
