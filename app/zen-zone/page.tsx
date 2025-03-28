@@ -59,7 +59,7 @@ const zenContent = [
     likes: 1800,
     comments: 150,
     shares: 85,
-    type: "image",
+    type: "image" as "image",
     url: "https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?auto=format&fit=crop&w=1000&q=80",
   },
 ]
@@ -244,7 +244,7 @@ export default function ZenZone() {
                   <CardContent className="p-3">
                     <div className="aspect-video relative mb-2">
                       <Image
-                        src={content.type === "image" ? content.url : content.thumbnail}
+                        src={content.type === "image" ? content.url : content.thumbnail ?? ""}
                         alt={content.title}
                         layout="fill"
                         objectFit="cover"

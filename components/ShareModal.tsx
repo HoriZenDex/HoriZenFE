@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
 interface ShareModalProps {
@@ -21,7 +21,14 @@ interface ShareModalProps {
 
 export function ShareModal({ open, onOpenChange, content }: ShareModalProps) {
   const [copied, setCopied] = useState(false)
-  const shareUrl = `${window.location.origin}/zen-zone/share/${content.url}`
+  const [shareUrl, setShareUrl] = useState("")
+
+  useEffect(() => {
+    // This effect runs only on the client side
+    if (typeof window !== "undefined") {
+      setShareUrl(`${window.location.origin}/zen-zone/share/${content.url}`)
+    }
+  }, [content.url])
 
   const handleCopy = () => {
     navigator.clipboard.writeText(shareUrl)
@@ -94,6 +101,7 @@ export function ShareModal({ open, onOpenChange, content }: ShareModalProps) {
                   onClick={handleCopy}
                   size="sm"
                   className="px-3 bg-cosmic-cyan hover:bg-cosmic-cyan/80 text-gray-900"
+                  disabled={!shareUrl}
                 >
                   <motion.div
                     whileHover={{ scale: 1.05 }}
