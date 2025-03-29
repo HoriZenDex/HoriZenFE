@@ -24,7 +24,6 @@ export function ShareModal({ open, onOpenChange, content }: ShareModalProps) {
   const [shareUrl, setShareUrl] = useState("")
 
   useEffect(() => {
-    // This effect runs only on the client side
     if (typeof window !== "undefined") {
       setShareUrl(`${window.location.origin}/zen-zone/share/${content.url}`)
     }
@@ -141,21 +140,18 @@ export function ShareModal({ open, onOpenChange, content }: ShareModalProps) {
                 <h3 className="text-sm font-medium text-gray-300 mb-3">Share via</h3>
                 <div className="grid grid-cols-4 gap-2">
                   {socialPlatforms.map((platform, index) => (
-                    <motion.a
+                    <a
                       key={platform.name}
                       href={platform.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex flex-col items-center justify-center p-3 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.4 + index * 0.1 }}
-                      whileHover={{ y: -3, scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
                     >
-                      {platform.icon}
+                      <div className="p-1"> {/* Added a small padding container */}
+                        {platform.icon}
+                      </div>
                       <span className="mt-1 text-xs text-gray-300">{platform.name}</span>
-                    </motion.a>
+                    </a>
                   ))}
                 </div>
               </motion.div>
