@@ -8,6 +8,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { creators } from "@/lib/data"
+import { ShareModal } from "@/components/ShareModal"
 
 const zenContent = [
   {
@@ -17,7 +18,7 @@ const zenContent = [
     likes: 1200,
     comments: 89,
     shares: 45,
-    type: "video",
+    type: "video" as "video",
     url: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     thumbnail: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1000&q=80",
   },
@@ -28,7 +29,7 @@ const zenContent = [
     likes: 980,
     comments: 120,
     shares: 67,
-    type: "image",
+    type: "image" as "image",
     url: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1000&q=80",
   },
   {
@@ -38,7 +39,7 @@ const zenContent = [
     likes: 1500,
     comments: 210,
     shares: 98,
-    type: "image",
+    type: "image" as "image",
     url: "https://images.unsplash.com/photo-1519834785169-98be25ec3f84?auto=format&fit=crop&w=1000&q=80",
   },
   {
@@ -48,7 +49,7 @@ const zenContent = [
     likes: 2200,
     comments: 180,
     shares: 120,
-    type: "image",
+    type: "image" as "image",
     url: "https://images.unsplash.com/photo-1507499739999-097706ad8914?auto=format&fit=crop&w=1000&q=80",
   },
   {
@@ -58,7 +59,7 @@ const zenContent = [
     likes: 1800,
     comments: 150,
     shares: 85,
-    type: "image",
+    type: "image" as "image",
     url: "https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?auto=format&fit=crop&w=1000&q=80",
   },
 ]
@@ -66,6 +67,7 @@ const zenContent = [
 export default function ZenZone() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPlaying, setIsPlaying] = useState(true)
+  const [showShareModal, setShowShareModal] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
@@ -107,10 +109,20 @@ export default function ZenZone() {
     setIsPlaying(!isPlaying)
   }
 
-  const currentCreator = creators.find((creator) => creator.id === currentContent.creatorId)
+  const currentCreator = creators.find((creator) => creator.id === currentContent.creatorId);
+
+  const handleShareClick = () => {
+    setShowShareModal(true)
+  }
+
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-black via-black/95 to-black/90">
+        <ShareModal
+        open={showShareModal}
+        onOpenChange={setShowShareModal}
+        content={currentContent}
+      />
       <header className="p-4">
         <Link href="/">
           <Button
@@ -206,7 +218,7 @@ export default function ZenZone() {
                     <MessageCircle className="h-5 w-5 mr-2" />
                     {currentContent.comments}
                   </Button>
-                  <Button variant="ghost" size="sm" className="text-emerald-400 hover:text-emerald-300">
+                  <Button variant="ghost" size="sm" className="text-emerald-400 hover:text-emerald-300"  onClick={handleShareClick}>
                     <Share2 className="h-5 w-5 mr-2" />
                     {currentContent.shares}
                   </Button>
@@ -232,7 +244,7 @@ export default function ZenZone() {
                   <CardContent className="p-3">
                     <div className="aspect-video relative mb-2">
                       <Image
-                        src={content.type === "image" ? content.url : content.thumbnail}
+                        src={content.type === "image" ? content.url : content.thumbnail ?? ""}
                         alt={content.title}
                         layout="fill"
                         objectFit="cover"
