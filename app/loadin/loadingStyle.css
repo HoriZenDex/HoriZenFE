@@ -1,0 +1,68 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+}
+
+.center {
+    position: relative;
+    width: 600px;
+    height: 600px;
+}
+
+.center-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.center-image img {
+    height: 50px;
+    width: 50px;
+}
+
+.orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 400px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    animation: rotate 10s linear infinite;
+    background-color: transparent;
+}
+
+.orbit-icon {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    transform-origin: 200px 200px;
+    transform: rotate(calc(72deg * var(--i))) translateX(200px);
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+    animation-delay: calc(0.5s * var(--i));
+}
+
+@keyframes rotate {
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
