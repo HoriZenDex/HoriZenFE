@@ -7,7 +7,6 @@ import Image from "next/image"
 import { Github, Linkedin, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-// Custom X (Twitter) icon component
 function XIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
@@ -117,7 +116,7 @@ export default function Footer() {
                   <Github className="h-5 w-5" />
                   <span className="sr-only">GitHub</span>
                 </Link>
-                <Link href="#" className="text-gray-400 hover:text-cosmic-cyan transition-colors duration-300">
+                <Link href="https://www.linkedin.com/company/horizendex" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-cosmic-cyan transition-colors duration-300">
                   <Linkedin className="h-5 w-5" />
                   <span className="sr-only">LinkedIn</span>
                 </Link>

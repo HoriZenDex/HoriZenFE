@@ -35,7 +35,7 @@ export default function ExplorerGallery({
   return (
     <div className="flex-1 overflow-hidden p-6">
       <div className="flex space-x-4 mb-6">
-        {["all", "image", "video"].map((filter) => (
+        {["image", "video"].map((filter) => (
           <button
             key={filter}
             className={`px-4 py-2 rounded-full ${

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Home, ChevronLeft, ChevronRight, Heart, MessageCircle, Share2, Play, Pause } from "lucide-react"
+import { Home, ChevronLeft, ChevronRight, Heart, MessageCircle, Share2, Play, Pause, ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import Image from "next/image"
@@ -124,15 +124,15 @@ export default function ZenZone() {
         content={currentContent}
       />
       <header className="p-4">
-        <Link href="/">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="text-cosmic-cyan hover:text-cosmic-cyan/80 transition-all duration-300"
-          >
-            <Home className="h-5 w-5" />
-          </Button>
+      <div className="container mx-auto px-4 py-6">
+        <Link 
+          href="/" 
+          className="inline-flex items-center text-cosmic-cyan hover:text-cosmic-mint transition-colors"
+        >
+          <ArrowLeft className="h-5 w-5 mr-2" />
+          <span>Back to Home</span>
         </Link>
+      </div>
       </header>
       <main className="flex-grow flex items-center justify-center p-8">
         <div className="w-full max-w-4xl">

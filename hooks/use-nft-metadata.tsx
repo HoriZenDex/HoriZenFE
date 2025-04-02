@@ -1,5 +1,5 @@
-import { useReadContracts } from 'wagmi';
-import { useState, useCallback, useMemo } from 'react';
+import { useReadContracts, useReadContract } from 'wagmi';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { Abi } from 'viem';
 import { abi } from '../VideoNFTMarketplace.json';
 import { pinata } from '@/utils/config';
@@ -8,17 +8,28 @@ import { NFT } from '@/lib/types';
 
 interface UseNFTTokenURIsProps {
   contractAddress: `0x${string}`;
-  tokenIds: (string | number)[];
 }
 
-export function useNFTMetadata({ contractAddress, tokenIds}: UseNFTTokenURIsProps) {
+export function useNFTMetadata({ contractAddress }: UseNFTTokenURIsProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
   const [mergedNFTs, setMergedNFTs] = useState<NFT[]>([]);
   const [videoCIDArray, setVideoCIDArray] = useState<string[]>([]);
   const [metadata, setMetadata] = useState<any[]>([]);
+  const [tokenIds, setTokenIds] = useState<bigint[]>([]);
 
-  // Prepare contract calls for each token ID
+  const { data: allTokenIds } = useReadContract({
+    address: contractAddress,
+    abi: abi as Abi,
+    functionName: 'getAllTokenIds',
+  });
+
+  useEffect(() => {
+    if (allTokenIds) {
+      setTokenIds(allTokenIds as bigint[]);
+    }
+  }, [allTokenIds]);
+
   const contractCalls = useMemo(() => {
     return tokenIds.map((id) => ({
       address: contractAddress,
@@ -28,12 +39,10 @@ export function useNFTMetadata({ contractAddress, tokenIds}: UseNFTTokenURIsProp
     }));
   }, [contractAddress, tokenIds]);
 
-  // Use wagmi's useReadContracts to batch the calls
   const result = useReadContracts({
     contracts: contractCalls,
   });
   
-  // Función para obtener datos de Pinata - simplificada
   const fetchPinataData = useCallback(async () => {
     console.log("result");
     console.log(result.data);
@@ -58,6 +67,11 @@ export function useNFTMetadata({ contractAddress, tokenIds}: UseNFTTokenURIsProp
     setIsLoading(false);
   }, [result.data, isLoading]);
 
+  useEffect(() => {
+    if (result.data && !isLoading) {
+      fetchPinataData();
+    }
+  }, [result.data, isLoading, fetchPinataData]);
   
   return {
     refetch: result.refetch,

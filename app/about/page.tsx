@@ -6,7 +6,8 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Users, Rocket, Award, Globe, MessageCircle, Mail, Twitter, Github, Linkedin } from "lucide-react"
+import { Users, Rocket, Award, Globe, MessageCircle, Mail, Twitter, Github, Linkedin, ArrowLeft } from "lucide-react"
+import Link from "next/link";
 import Navbar from "@/components/Navbar/Navbar"
 import Footer from "@/components/Footer/Footer"
 import teamMembers from "./teamMembers"
@@ -28,25 +29,32 @@ export default function AboutPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-black text-white">
-      {/* Hero Section */}
-      <section className="relative w-full h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black/80 z-10"></div>
-        <div className="absolute inset-0 bg-[url('/placeholder.svg?height=1080&width=1920')] bg-cover bg-center opacity-30"></div>
+      <div className="container mx-auto px-4 py-6">
+        <Link href="/" className="inline-flex items-center text-cosmic-cyan hover:text-cosmic-mint transition-colors">
+          <ArrowLeft className="h-5 w-5 mr-2" />
+          Back to Home
+        </Link>
+      </div>
 
+      {/* Hero Section */}
+      <section className="relative w-full h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black z-10"></div>
+        <div className="absolute inset-0 bg-[url('/placeholder.svg?height=1080&width=1920')] bg-cover bg-center opacity-20"></div>
+        
         <div className="container mx-auto px-4 relative z-20 text-center">
           <motion.h1
-            className="text-4xl md:text-6xl font-bold mb-7 leading-[1.2] pb-1 bg-gradient-to-r from-cosmic-mint via-cosmic-cyan to-cosmic-purple bg-clip-text text-transparent"
+            className="text-5xl md:text-7xl font-bold mb-8 leading-tight tracking-tight bg-gradient-to-r from-cosmic-mint via-cosmic-cyan to-cosmic-purple bg-clip-text text-transparent"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
           >
-            Redefining Digital Ownership
+            Redefining Digital<br />Ownership
           </motion.h1>
           <motion.p
-            className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-0"
+            className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto mb-12 leading-relaxed font-light"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
           >
             HoriZen is a revolutionary NFT platform where creators and collectors come together to explore the future of
             digital content.
@@ -54,11 +62,11 @@ export default function AboutPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="space-y-4"
           >
-            <Button className="bg-[#03ceb3] hover:bg-[#08fcdb] text-gray-900 hover:text-black font-bold px-8 py-6 rounded-full text-lg transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:shadow-[#03ceb3]/50 relative overflow-hidden group">
-              <span className="relative z-10">Explore HoriZen</span>
-              <span className="absolute inset-0 bg-gradient-to-r from-[#03ceb3] to-[#08fcdb] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out"></span>
+            <Button className="bg-gradient-to-r from-cosmic-mint to-cosmic-cyan hover:from-cosmic-cyan hover:to-cosmic-mint text-black font-bold px-10 py-7 rounded-full text-lg transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl hover:shadow-cosmic-mint/20">
+              Explore HoriZen
             </Button>
           </motion.div>
         </div>
