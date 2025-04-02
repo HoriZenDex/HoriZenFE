@@ -64,7 +64,7 @@ export default function Footer() {
               </Link>
             </div>
             <Link
-              href="https://horizendex.io"
+              href="https://www.gelato.network/"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center text-cosmic-cyan hover:text-cosmic-mint transition-colors duration-300 text-sm font-medium"
@@ -79,11 +79,9 @@ export default function Footer() {
             <h3 className="text-white font-semibold mb-6 text-lg">Quick Links</h3>
             <ul className="space-y-3">
               {[
-                { name: "Marketplace", href: "/marketplace" },
-                { name: "Creators", href: "/creators" },
-                { name: "Community", href: "/community" },
                 { name: "Zen Zone", href: "/zen-zone" },
                 { name: "About Us", href: "/about" },
+                { name: "FAQ", href: "/faq" },
               ].map((item) => (
                 <li key={item.name}>
                   <Link
@@ -98,45 +96,7 @@ export default function Footer() {
           </div>
 
           {/* Resources */}
-          <div className="col-span-1">
-            <h3 className="text-white font-semibold mb-6 text-lg">Resources</h3>
-            <ul className="space-y-3">
-              {[
-                { name: "Help Center", href: "/help" },
-                { name: "Documentation", href: "/docs" },
-                { name: "Tokenomics", href: "/tokenomics" },
-                { name: "Privacy Policy", href: "/privacy" },
-                { name: "Terms of Service", href: "/terms" },
-              ].map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="text-gray-400 hover:text-cosmic-cyan transition-colors duration-300 text-sm"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Stay Updated */}
-          <div className="col-span-1">
-            <h3 className="text-white font-semibold mb-6 text-lg">Stay Updated</h3>
-            <p className="text-gray-400 text-sm mb-4">
-              Subscribe to our newsletter for the latest updates and features.
-            </p>
-            <div className="flex mb-6">
-              <input
-                type="email"
-                placeholder="Your email"
-                className="flex-1 bg-gray-900 border border-gray-800 rounded-l-md px-4 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-cosmic-cyan"
-              />
-              <Button className="bg-cosmic-cyan hover:bg-cosmic-mint text-black font-medium rounded-l-none rounded-r-md">
-                Subscribe
-              </Button>
-            </div>
-            <div>
+          <div>
               <h4 className="text-white font-medium mb-4 text-sm">Connect With Us</h4>
               <div className="flex space-x-4">
                 <Link
@@ -161,7 +121,24 @@ export default function Footer() {
                   <Linkedin className="h-5 w-5" />
                   <span className="sr-only">LinkedIn</span>
                 </Link>
-              </div>
+            </div>
+          </div>
+
+          {/* Stay Updated */}
+          <div className="col-span-1">
+            <h3 className="text-white font-semibold mb-6 text-lg">Stay Updated</h3>
+            <p className="text-gray-400 text-sm mb-4">
+              Subscribe to our newsletter for the latest updates and features.
+            </p>
+            <div className="flex mb-6">
+              <input
+                type="email"
+                placeholder="Your email"
+                className="flex-1 bg-gray-900 border border-gray-800 rounded-l-md px-4 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-cosmic-cyan"
+              />
+              <Button className="bg-cosmic-cyan hover:bg-cosmic-mint text-black font-medium rounded-l-none rounded-r-md">
+                Subscribe
+              </Button>
             </div>
           </div>
         </div>

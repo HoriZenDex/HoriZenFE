@@ -21,7 +21,7 @@ interface TrendingCreatorsProps {
 export default function TrendingCreators({ creators }: TrendingCreatorsProps) {
   return (
     <div className="px-4 py-8 bg-gray-900/50">
-      <h2 className="text-2xl font-bold text-cosmic-cyan mb-6">Trending Creators</h2>
+      <h2 className="text-2xl font-bold text-cosmic-cyan mb-6">Top Creators</h2>
       <Card className="bg-black/60 border-cosmic-mint/20">
         <CardContent className="p-0">
           <div className="divide-y divide-cosmic-mint/10">

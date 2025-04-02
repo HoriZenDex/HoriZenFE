@@ -56,7 +56,7 @@ function ConnectWallet() {
 }
 
 // This is a wrapper component that directly uses the wallet connectors
-function WalletModalContent({ onClose }) {
+function WalletModalContent({ onClose }: { onClose: () => void }) {
   const { connect, connectors } = useConnect()
   
   return (
@@ -110,16 +110,6 @@ export default function ExplorerHeader({
             </h2>
           </div>
           <div className="flex items-center space-x-4">
-            <div className="relative">
-              <Input
-                type="search"
-                placeholder="Search NFTs and Creators"
-                className="cosmic-input w-64 pl-10 text-white"
-                value={searchTerm}
-                onChange={handleSearchChange}
-              />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-            </div>
             <ConnectWallet />
           </div>
         </div>

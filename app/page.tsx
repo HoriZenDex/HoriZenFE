@@ -74,7 +74,6 @@ export default function Home() {
         <ZenZoneButton />
         <Explorer walletAddress={walletAddress} nfts={mergedNFTs} />
         <TrendingCreators creators={trendingCreators.slice(0, 5)} />
-        <TrendingCategories />
         <Footer />
       </main>
       <Navbar />
