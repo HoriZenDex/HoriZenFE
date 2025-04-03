@@ -22,11 +22,11 @@ interface ExplorerHeaderProps {
 function ConnectWallet() {
   const { isConnected } = useAccount()
   const [showWalletOptions, setShowWalletOptions] = useState(false)
-  
+
   if (isConnected) {
     return <Account />
   }
-  
+
   return (
     <div className="relative">
       <Button
@@ -36,7 +36,7 @@ function ConnectWallet() {
         <Wallet className="h-4 w-4 mr-2" />
         <span>Connect Wallet</span>
       </Button>
-      
+
       {showWalletOptions && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50" onClick={() => setShowWalletOptions(false)}>
           <div className="bg-gray-900 border border-gray-800 rounded-lg p-6 w-full max-w-md mx-4" onClick={e => e.stopPropagation()}>
@@ -58,11 +58,11 @@ function ConnectWallet() {
 // This is a wrapper component that directly uses the wallet connectors
 function WalletModalContent({ onClose }: { onClose: () => void }) {
   const { connect, connectors } = useConnect()
-  
+
   return (
     <>
       {connectors.map((connector) => (
-        <button 
+        <button
           key={connector.id}
           className="w-full bg-gray-800 hover:bg-gray-700 text-white p-4 rounded-lg flex items-center gap-3 transition-colors border border-gray-700"
           onClick={() => {
