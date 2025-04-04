@@ -17,7 +17,7 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("")
   const [filteredNFTs, setFilteredNFTs] = useState<NFT[]>([])
   const [filteredCreators, setFilteredCreators] = useState(trendingCreators)
-  const NFT_CONTRACT_ADDRESS = '0x98a27d587D8945c41E18A90f5504f2010a8E330d'
+  const NFT_CONTRACT_ADDRESS = '0xFA80681DB103161D591035e9fE944f204c46bdFF'
 
   const connectWallet = () => {
     const mockAddress = "0x" + Math.random().toString(16).substr(2, 40)
@@ -41,24 +41,7 @@ export default function Home() {
     if (result.data && !isLoading && !dataLoaded) {
       fetchPinataData();
     }
-  }, [result.data, isLoading, dataLoaded, fetchPinataData]);
-
-  useEffect(() => {
-    const lowerSearchTerm = searchTerm.toLowerCase()
-    // const nftResults = nftExamples.filter(
-    //   (nft) => nft.title.toLowerCase().includes(lowerSearchTerm) || nft.creator.toLowerCase().includes(lowerSearchTerm),
-    // )
-    const creatorResults = trendingCreators.filter((creator) => creator.name.toLowerCase().includes(lowerSearchTerm))
-
-
-    setFilteredCreators(creatorResults)
-  }, [searchTerm])
-
-  useEffect(() => {
-    console.log("mergedNFTs");
-    console.log(mergedNFTs);
-
-  }, [mergedNFTs]);
+  });
 
   return (
     <div className="flex flex-col min-h-screen bg-black text-white">

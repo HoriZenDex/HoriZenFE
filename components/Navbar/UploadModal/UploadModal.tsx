@@ -166,13 +166,13 @@ export default function UploadModal({ isOpen, onClose, onSuccess }: UploadModalP
         })
 
         const hash = await writeContract({
-          address: "0xc019E0362Be2A56b540130Ed40998608C5957b20",
+          address: "0xFA80681DB103161D591035e9fE944f204c46bdFF",
           abi: abi,
           functionName: "mintVideoNFT",
-          args: [mainTokenUri, bonusTokenUri, 1]
+          args: [mainTokenUri, bonusTokenUri, BigInt(1)]
         });
 
-        console.log("Transaction hash:", hash);
+        // console.log("Transaction hash:", hash);
         // Reset form
         setFile(null)
         setTitle("")

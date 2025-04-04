@@ -38,16 +38,28 @@ export default function NFTDetails({ nft, onClose, onNavigate }: NFTDetailsProps
     }
   }
   async function buyNFT() {
-    const hash = await writeContract({
-      address: "0xc019E0362Be2A56b540130Ed40998608C5957b20",
-      abi: abi,
-      functionName: "buyNFT",
-      args: [nft.tokenId,5]
-    });
-    console.log("nft.tokenId");
-    console.log(nft.tokenId);
-    console.log("Transaction hash:", hash);
-  } 
+    try {
+      
+      
+      // Opción 1: Usar string directamente
+      const priceInWei = BigInt("1000000000000000000"); // 1 ETH en wei
+      
+      console.log("Comprando NFT con itemId:", nft.tokenId);
+      console.log("Enviando valor:", priceInWei.toString(), "wei");
+      
+      const hash = await writeContract({
+        address: "0x98a27d587D8945c41E18A90f5504f2010a8E330d",
+        abi: abi,
+        functionName: "buyNFT",
+        args: [nft.tokenId],
+        value: BigInt(1)
+      });
+      
+      console.log("Transacción exitosa! Hash:", hash);
+    } catch (error) {
+      console.error("Error al comprar NFT:", error);
+    }
+  }
 
   const creator = creators.find((c) => c.name === nft.creator)
 

@@ -66,12 +66,6 @@ export function useNFTMetadata({ contractAddress }: UseNFTTokenURIsProps) {
     setDataLoaded(true);
     setIsLoading(false);
   }, [result.data, isLoading]);
-
-  useEffect(() => {
-    if (result.data && !isLoading) {
-      fetchPinataData();
-    }
-  }, [result.data, isLoading, fetchPinataData]);
   
   return {
     refetch: result.refetch,

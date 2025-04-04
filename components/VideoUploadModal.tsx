@@ -1,13 +1,16 @@
 "use client"
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { X, Copy, ExternalLink, Plus } from "lucide-react"
-import { createPortal } from "react-dom"
-import { useWriteContract } from 'wagmi'
-import { abi } from '../VideoNFTMarketplace.json'
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { X, Copy, ExternalLink, Plus } from "lucide-react";
+import { createPortal } from "react-dom";
+import { useWriteContract } from 'wagmi';
+import { abi } from '../VideoNFTMarketplace.json';
+import { getPublicClient } from 'wagmi/actions'
+import { config } from "../wagmi-config";
+import { type Address } from 'viem'
 
 interface VideoMetadata {
   title: string;
@@ -167,22 +170,37 @@ export default function VideoUploadModal({ isOpen, onClose }: VideoUploadModalPr
       .catch(err => console.error('Failed to copy text: ', err));
   };
 
+  const checkIfContract = async (address: `0x${string}`) => {
+    console.log("entre check info")
+    const publicClient = getPublicClient(config)
+    const bytecode = await publicClient.getBytecode({ address })
+    console.log("This is the bytecide");
+    console.log("Bytecode:", bytecode)
+    return bytecode !== null
+  }
+
   // Función para mintear el NFT usando los metadatos
   const handleMintNFT = async (hashes: string[]) => {
     try {
       if (hashes.length !== 2) {
         throw new Error("Se necesitan exactamente 2 hashes para mintear");
       }
-      
-      const hash = await writeContract({
-        address: "0x14ADd3487eEb29c3902fB0cd2Fc8B6c69cdAA2cD",
-        abi: abi,
-        functionName: "mintVideoNFT",
-        args: [hashes[0], hashes[1], 1]
-      });
-      
-      console.log("Transaction hash:", hash);
-      return hash;
+  
+      const address = "0x98a27d587D8945c41E18A90f5504f2010a8E330d" as Address;
+      const isContract = await checkIfContract(address);
+      if (!isContract) {
+        throw new Error("La dirección del contrato no es válida en esta red.");
+      }
+  
+      // const txHash = await writeContract({
+      //   address,
+      //   abi,
+      //   functionName: "mintVideoNFT",
+      //   args: [hashes[0], hashes[1], 1]
+      // });
+  
+      // console.log("Transaction hash:", txHash);
+      return "txHash";
     } catch (error) {
       console.error("Error al mintear NFT:", error);
       throw error;

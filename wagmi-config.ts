@@ -4,7 +4,7 @@ import { defineChain } from 'viem'
 
 // Definir la nueva cadena personalizada
 const abcChain = defineChain({
-  id: 112,
+  id: 112112,
   name: 'ABC Testnet',
   network: 'abcTestnet',
   nativeCurrency: {
